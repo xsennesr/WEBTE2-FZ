@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\LangController;
+use App\Http\Middleware\LanguageManager;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('lang/home', [LangController::class, 'index'])->middleware(LanguageManager::class);
+
+Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
