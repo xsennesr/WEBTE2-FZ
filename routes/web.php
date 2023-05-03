@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LangController;
+use App\Http\Controllers\ZipController;
 use App\Http\Middleware\LanguageManager;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('parseZip');
 });
+
+Route::post('/', [ZipController::class, 'uploadFile'])->name('upload.zip');
 
 Route::get('lang/home', [LangController::class, 'index'])->middleware(LanguageManager::class);
 
