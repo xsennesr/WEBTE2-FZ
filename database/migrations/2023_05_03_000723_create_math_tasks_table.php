@@ -18,7 +18,10 @@ return new class extends Migration
             $table->text('task');
             $table->string('image')->nullable()->default(null);
             $table->text('solution');
-            $table->integer('max_points')->nullable()->default(null);;
+            $table->integer('max_points')->nullable()->default(null);
+            $table->boolean('available')->default(false);
+            $table->dateTime('publishing_at')->nullable()->default(null);
+            $table->dateTime('closing_at')->nullable()->default(null);
             $table->timestamps();
         });
     }

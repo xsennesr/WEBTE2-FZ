@@ -15,5 +15,7 @@ class MathTask extends Model
         'image',
         'solution',
         'max_points',
+        'publishing_at',
+        "closing_at",
     ];
 }

@@ -17,16 +17,19 @@ class ZipController extends Controller
         $request->validate([
             'my-file' => 'required|mimes:zip'
         ]);
-
         $file = $request->file('my-file');
         $name = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         $newName = time() . '_' . uniqid() . '.' . $extension;
 
         Storage::putFileAs('public', $file, $newName);
-        $parsedZip = $this->parseAndUpload('storage/' . $newName);
-        return view('parseZip', ['parsedZip' => $parsedZip]);
-        // return back()->with('parsedZip' $parsedZip);
+        if($this->parseAndUpload('storage/' . $newName)) {
+            dd('correct');
+            return back()->with('success', 'Priklady uspesne ulozene!');
+        } else {
+            dd("wrong");
+            return back()->with('error', 'Nastala chyba');
+        }
 
     }
     private function parseAndUpload($name)
