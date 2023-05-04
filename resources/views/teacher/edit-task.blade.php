@@ -3,7 +3,8 @@
 @section('additional_head')
 @endsection
 @section('content')
-    <script>
+
+    {{-- <script>
         window.MathJax = {
             options: {
                 renderActions: {
@@ -22,14 +23,15 @@
             tex: {
 
                 inlineMath: [
-                    ["$", "$"]
+                    ['$', '$']
                 ],
                 displayMath: [
                     ["$$", "$$"]
                 ],
                 processEscapes: true,
+                processEnvironments: true,
                 packages: {
-                    '[+]': ['tagFormat']
+                    '[+]': ['tagFormat'],
                 },
                 digits: /^(?:[\d۰-۹]+(?:[,٬'][\d۰-۹]{3})*(?:[\.\/٫][\d۰-۹]*)?|[\.\/٫][\d۰-۹]+)/, // introduce numbers
                 tagSide: "right",
@@ -52,10 +54,9 @@
                     }
                 },
                 environments: {
-  task: ['{\\let\\displaystyle\\textstyle\\begin{aligned}', '\\end{aligned}}'],
-  solution: ['{\\let\\displaystyle\\textstyle\\begin{aligned}', '\\end{aligned}}']
-}
-
+                    task: ['{\\let\\displaystyle\\textstyle\\begin{aligned}', '\\end{aligned}}'],
+                    solution: ['{\\let\\displaystyle\\textstyle\\begin{aligned}', '\\end{aligned}}'],
+                }
             },
             svg: {
                 fontCache: 'global', // or 'local' or 'none'
@@ -73,22 +74,35 @@
                 }
             }
         };
+    </script> --}}
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+    });
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    {{-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script> --}}
 
-\begin{task}
-    Nájdite prenosovú funkciu $F(s)=\dfrac{Y(s)}{W(s)}$ pre systém opísaný blokovou schémou:
-\end{task}
+<div>
+{{-- \begin{task} --}}
+    Nájdite prenosovú funkciu $F(s)=\dfrac{Y(s)}{W(s)}$  pre systém opísaný blokovou schémou:
+{{-- \end{task} --}}
+</div>
 
-
-
-
-\begin{solution}
+<div>
+{{-- \begin{solution} --}}
     \begin{equation*}
         \dfrac{2s^2+13s+10}{s^3+7s^2+18s+15}
     \end{equation*}
-\end{solution}
-
+{{-- \end{solution} --}}
+</div>
 
 
     <form method="POST" action="{{ route('teacher.update-task', $priklad->id) }}">
