@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('batch_name', 128);
             $table->string('task_name', 128)->unique();
             $table->text('task');
-            $table->string('image')->nullable()->default(null);
+            $table->text('image')->nullable()->default(null);
             $table->text('solution');
             $table->integer('max_points')->nullable()->default(null);
             $table->boolean('available')->default(false);
