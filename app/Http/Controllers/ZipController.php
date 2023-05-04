@@ -41,12 +41,14 @@ class ZipController extends Controller
         }
         $contentOfLatex = array();
         $pathToFiles = array();
+        $pathToImages = array();
         if ($zip->open($name) === true) {
             $zip->extractTo($extractPath);
             $zip->close();
             $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDirName, recursiveDirectoryIterator::SKIP_DOTS));
             foreach ($rii as $file) {
                 if ($file->isDir() || $file->getExtension() !== 'tex') {
+                    $pathToImages[basename($file->getPathname(),$file->getExtension()).$file->getExtension()] = $file->getPathname();
                     continue;
                 }
                 array_push($pathToFiles, $file->getPathname());
@@ -61,8 +63,7 @@ class ZipController extends Controller
                     'batch_name' => basename($file, '.tex')
                 ], );
             }
-            File::delete($name);
-            File::deleteDirectory($tmpDirName);
+
             $regexSections = "/\\\\section\\*?\\{[^{}]*\\}\\s*(?:.|\\n)*?\\\\end\\{solution\\}/s";
             $regexTask = "/\\\\begin\\{task\\}\\s*(.*?)\s*\\\\end\\{task\\}/s";
             $regexSolution = "/\\\\begin\\{solution\\}\\s*(.*?)\s*\\\\end\\{solution\\}/s";
@@ -82,8 +83,10 @@ class ZipController extends Controller
                     'batch_name' =>  $file['batch_name']
                 ]);
             }
-            //$matchesSection = array_merge($matchesSection, $fileMatches[0]);
-            //dd($matchesSection);
+           
+            // dd(file_get_contents(public_path("/storage/tmpForLatex/images/blokovka01_00002.jpg")));
+            
+ 
             $finalArray = array();
             foreach ($matchesSection as $file) {
                 foreach($file['content'] as $section) {
@@ -91,26 +94,37 @@ class ZipController extends Controller
                     preg_match($regexSolution, $section, $matchesSolution);
                     preg_match($regexTaskNames, $section, $matchesTaskNames);
                     preg_match($regexTaskImages, $section, $matchesTaskImages);
-                    $matchesTask[0] =  preg_replace($regexRemoveInclude, "", $matchesTask[0]);
+                    $matchesTask[1] =  preg_replace($regexRemoveInclude, "", $matchesTask[1]);
+                    $base64Image = null;
+                    if(isset($matchesTaskImages[0])){
+                        preg_match('/[^\/]+\.[a-z]+$/i',$matchesTaskImages[0],$test);
+                        if(isset($pathToImages[$test[0]])){
+                            $content = file_get_contents(public_path($pathToImages[$test[0]]));
+                            $base64Image = base64_encode($content);
+                        }
+                    }
+
                     array_push($finalArray, [
                         "batch_name" => $file['batch_name'],
                         "taskName" => $matchesTaskNames[0],
-                        "task" => $matchesTask[0],
-                        "image" => $matchesTaskImages[0] ?? null,
-                        "solution" => $matchesSolution[0],
+                        "task" => $matchesTask[1],
+                        "image" => $base64Image,
+                        "solution" => $matchesSolution[1],
                     ]);
                     try {
                         MathTask::create([
                             "batch_name" => $file['batch_name'],
                             "task_name" => $matchesTaskNames[0],
-                            "task" => $matchesTask[0],
-                            "image" => $matchesTaskImages[0] ?? null,
-                            "solution" => $matchesSolution[0],
+                            "task" => $matchesTask[1],
+                            "image" => $base64Image,
+                            "solution" => $matchesSolution[1],
                         ]);
                     } catch (\Throwable $th) {
                     }
                 }
             }
+            File::delete($name);
+            File::deleteDirectory($tmpDirName);  
             return $finalArray;
         }
     }
