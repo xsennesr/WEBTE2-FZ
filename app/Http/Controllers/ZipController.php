@@ -14,6 +14,7 @@ class ZipController extends Controller
 {
     public function uploadFile(Request $request)
     {
+        //TODO umoznit nahrat samotny .tex subor
         $request->validate([
             'my-file' => 'required|mimes:zip'
         ]);
@@ -24,10 +25,8 @@ class ZipController extends Controller
 
         Storage::putFileAs('public', $file, $newName);
         if($this->parseAndUpload('storage/' . $newName)) {
-            dd('correct');
             return back()->with('success', 'Priklady uspesne ulozene!');
         } else {
-            dd("wrong");
             return back()->with('error', 'Nastala chyba');
         }
 
@@ -42,13 +41,12 @@ class ZipController extends Controller
         }
         $contentOfLatex = array();
         $pathToFiles = array();
-        //TODO nech to bere len .tex subory
         if ($zip->open($name) === true) {
             $zip->extractTo($extractPath);
             $zip->close();
             $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDirName, recursiveDirectoryIterator::SKIP_DOTS));
             foreach ($rii as $file) {
-                if ($file->isDir()) {
+                if ($file->isDir() || $file->getExtension() !== 'tex') {
                     continue;
                 }
                 array_push($pathToFiles, $file->getPathname());

@@ -19,4 +19,8 @@ class TeacherController extends Controller
        // dd($priklad);
         return view('teacher.edit-task', ['priklad' => $priklad]);
     }
+    public function updateTask(Request $request)
+    {
+        return back()->with('success', 'Priklady uspesne ulozene!');
+    }
 }
