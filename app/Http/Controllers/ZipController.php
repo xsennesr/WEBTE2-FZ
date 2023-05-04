@@ -48,6 +48,7 @@ class ZipController extends Controller
             $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDirName, recursiveDirectoryIterator::SKIP_DOTS));
             foreach ($rii as $file) {
                 if ($file->isDir() || $file->getExtension() !== 'tex') {
+                    $pathToImages[basename($file->getPathname(), $file->getExtension()) . $file->getExtension()] = [$file->getPathname(), $file->getExtension()];
                     continue;
                 }
                 array_push($contentOfLatex, [
@@ -75,8 +76,6 @@ class ZipController extends Controller
                     'batch_name' =>  $file['batch_name']
                 ]);
             }
-
-            // dd(file_get_contents(public_path("/storage/tmpForLatex/images/blokovka01_00002.jpg")));
 
 
             $finalArray = array();

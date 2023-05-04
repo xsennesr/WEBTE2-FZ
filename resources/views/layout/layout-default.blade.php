@@ -6,7 +6,7 @@
     @include('layout.includes.navbar')
 
     <div class="container">
-       {{--  @include('misc.flash-message') --}}
+        @include('misc.flash-message')
         @yield('content')
     </div>
 
