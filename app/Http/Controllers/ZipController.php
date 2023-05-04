@@ -48,7 +48,7 @@ class ZipController extends Controller
             $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDirName, recursiveDirectoryIterator::SKIP_DOTS));
             foreach ($rii as $file) {
                 if ($file->isDir() || $file->getExtension() !== 'tex') {
-                    $pathToImages[basename($file->getPathname(),$file->getExtension()).$file->getExtension()] = $file->getPathname();
+                    $pathToImages[basename($file->getPathname(),$file->getExtension()).$file->getExtension()] = [$file->getPathname(),$file->getExtension()];
                     continue;
                 }
                 array_push($pathToFiles, $file->getPathname());
@@ -99,8 +99,8 @@ class ZipController extends Controller
                     if(isset($matchesTaskImages[0])){
                         preg_match('/[^\/]+\.[a-z]+$/i',$matchesTaskImages[0],$test);
                         if(isset($pathToImages[$test[0]])){
-                            $content = file_get_contents(public_path($pathToImages[$test[0]]));
-                            $base64Image = base64_encode($content);
+                            $content = file_get_contents(public_path($pathToImages[$test[0]][0]));
+                            $base64Image = 'data:image/'.$pathToImages[$test[0]][1].';base64,'.base64_encode($content);
                         }
                     }
 

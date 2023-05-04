@@ -18,6 +18,10 @@
 
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
+
+<div>
+    <img src="{{$priklad->image }}" alt="">
+</div>
     <form method="POST" action="{{ route('teacher.update-task', $priklad->id) }}">
         @csrf
         @method('PUT')
