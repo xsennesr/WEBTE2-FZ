@@ -3,7 +3,7 @@
 @section('additional_head')
 @endsection
 @section('content')
-<script type="text/x-mathjax-config">
+    <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         extensions: ["tex2jax.js"],
         jax: ["input/TeX", "output/HTML-CSS"],
@@ -16,13 +16,11 @@
     });
 </script>
 
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+    </script>
 
 
-<div>
-    <img src="{{$priklad->image }}" alt="">
-</div>
-    <form method="POST" action="{{ route('teacher.update-task', $priklad->id) }}">
+    <form method="POST" action="{{ route('teacher.update-task', $priklad->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -43,12 +41,15 @@
         <div id="task_buffer" class="hidden"></div>
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
-            <input type="text" class="form-control" id="image" name="image" value="{{ $priklad->image }}">
+            <input type="file" class="form-control" id="image" name="image"
+                accept=".jpg, .png, .jpeg, .webp, .gif">
+            <input type="hidden" name="image-base64" id="image-base64" value="{{ $priklad->image }}">
+            <img id="image-preview" src="{{ $priklad->image }}" alt="">
         </div>
         <div class="mb-3">
             <label for="solution" class="form-label">Solution</label>
             <textarea class="form-control" id="solution" name="solution" rows="6">{{ $priklad->solution }}</textarea>
-             <div id="solution-tex"></div>
+            <div id="solution-tex"></div>
         </div>
         <div id="solution_output" class="mb-3">
             {{ $priklad->solution }}
@@ -60,12 +61,13 @@
         </div>
         <div class="mb-3">
             <label for="publishing_at" class="form-label">Publishing At</label>
-            <input type="date" class="form-control" id="publishing_at" name="publishing_at"
+            <input type="datetime-local" class="form-control" id="publishing_at" name="publishing_at"
                 value="{{ $priklad->publishing_at }}">
         </div>
         <div class="mb-3">
             <label for="closing_at" class="form-label">Closing At</label>
-            <input type="date" class="form-control" id="closing_at" name="closing_at" value="{{ $priklad->closing_at }}">
+            <input type="datetime-local" class="form-control" id="closing_at" name="closing_at"
+                value="{{ $priklad->closing_at }}">
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="available" name="available"
@@ -76,148 +78,168 @@
     </form>
     <script defer>
         var Preview_TASK = {
-          delay: 10,        // delay after keystroke before updating
-          preview: null,     // filled in by Init below
-          buffer: null,      // filled in by Init below
-          timeout: null,     // store setTimout id
-          mjRunning: false,  // true when MathJax is processing
-          mjPending: false,  // true when a typeset has been queued
-          oldText: null,     // used to check if an update is needed
-          //
-          //  Get the preview and buffer DIV's
-          //
-          Init: function (source) {
-            this.preview = document.getElementById("task_output");
-            this.buffer = document.getElementById("task_buffer");
-          },
-          //
-          //  Switch the buffer and preview, and display the right one.
-          //  (We use visibility:hidden rather than display:none since
-          //  the results of running MathJax are more accurate that way.)
-          //
-          SwapBuffers: function () {
-            var buffer = this.preview, preview = this.buffer;
-            this.buffer = buffer; this.preview = preview;
-            buffer.style.visibility = "hidden"; buffer.style.position = "absolute";
-            preview.style.position = ""; preview.style.visibility = "";
-          },
-          //
-          //  This gets called when a key is pressed in the textarea.
-          //  We check if there is already a pending update and clear it if so.
-          //  Then set up an update to occur after a small delay (so if more keys
-          //    are pressed, the update won't occur until after there has been
-          //    a pause in the typing).
-          //  The callback function is set up below, after the Preview object is set up.
-          //
-          Update: function () {
-            if (this.timeout) {clearTimeout(this.timeout)}
-            this.timeout = setTimeout(this.callback,this.delay);
-          },
-          //
-          //  Creates the preview and runs MathJax on it.
-          //  If MathJax is already trying to render the code, return
-          //  If the text hasn't changed, return
-          //  Otherwise, indicate that MathJax is running, and start the
-          //    typesetting.  After it is done, call PreviewDone.
-          //
-          CreatePreview: function () {
-            Preview_TASK.timeout = null;
-            if (this.mjPending) return;
-            var text = document.getElementById("task").value;
+            delay: 10, // delay after keystroke before updating
+            preview: null, // filled in by Init below
+            buffer: null, // filled in by Init below
+            timeout: null, // store setTimout id
+            mjRunning: false, // true when MathJax is processing
+            mjPending: false, // true when a typeset has been queued
+            oldText: null, // used to check if an update is needed
+            //
+            //  Get the preview and buffer DIV's
+            //
+            Init: function(source) {
+                this.preview = document.getElementById("task_output");
+                this.buffer = document.getElementById("task_buffer");
+            },
+            //
+            //  Switch the buffer and preview, and display the right one.
+            //  (We use visibility:hidden rather than display:none since
+            //  the results of running MathJax are more accurate that way.)
+            //
+            SwapBuffers: function() {
+                var buffer = this.preview,
+                    preview = this.buffer;
+                this.buffer = buffer;
+                this.preview = preview;
+                buffer.style.visibility = "hidden";
+                buffer.style.position = "absolute";
+                preview.style.position = "";
+                preview.style.visibility = "";
+            },
+            //
+            //  This gets called when a key is pressed in the textarea.
+            //  We check if there is already a pending update and clear it if so.
+            //  Then set up an update to occur after a small delay (so if more keys
+            //    are pressed, the update won't occur until after there has been
+            //    a pause in the typing).
+            //  The callback function is set up below, after the Preview object is set up.
+            //
+            Update: function() {
+                if (this.timeout) {
+                    clearTimeout(this.timeout)
+                }
+                this.timeout = setTimeout(this.callback, this.delay);
+            },
+            //
+            //  Creates the preview and runs MathJax on it.
+            //  If MathJax is already trying to render the code, return
+            //  If the text hasn't changed, return
+            //  Otherwise, indicate that MathJax is running, and start the
+            //    typesetting.  After it is done, call PreviewDone.
+            //
+            CreatePreview: function() {
+                Preview_TASK.timeout = null;
+                if (this.mjPending) return;
+                var text = document.getElementById("task").value;
 
-            if (text === this.oldtext) return;
-            if (this.mjRunning) {
-              this.mjPending = true;
-              MathJax.Hub.Queue(["CreatePreview",this]);
-            } else {
-              this.buffer.innerHTML = this.oldtext = text;
-              this.mjRunning = true;
-              MathJax.Hub.Queue(
-            ["Typeset",MathJax.Hub,this.buffer],
-            ["PreviewDone",this]
-              );
+                if (text === this.oldtext) return;
+                if (this.mjRunning) {
+                    this.mjPending = true;
+                    MathJax.Hub.Queue(["CreatePreview", this]);
+                } else {
+                    this.buffer.innerHTML = this.oldtext = text;
+                    this.mjRunning = true;
+                    MathJax.Hub.Queue(
+                        ["Typeset", MathJax.Hub, this.buffer],
+                        ["PreviewDone", this]
+                    );
+                }
+            },
+            //
+            //  Indicate that MathJax is no longer running,
+            //  and swap the buffers to show the results.
+            //
+            PreviewDone: function() {
+                this.mjRunning = this.mjPending = false;
+                this.SwapBuffers();
             }
-          },
-          //
-          //  Indicate that MathJax is no longer running,
-          //  and swap the buffers to show the results.
-          //
-          PreviewDone: function () {
-            this.mjRunning = this.mjPending = false;
-            this.SwapBuffers();
-          }
         };
         var Preview_SOL = {
-          delay: 10,        // delay after keystroke before updating
-          preview: null,     // filled in by Init below
-          buffer: null,      // filled in by Init below
-          timeout: null,     // store setTimout id
-          mjRunning: false,  // true when MathJax is processing
-          mjPending: false,  // true when a typeset has been queued
-          oldText: null,     // used to check if an update is needed
+            delay: 10, // delay after keystroke before updating
+            preview: null, // filled in by Init below
+            buffer: null, // filled in by Init below
+            timeout: null, // store setTimout id
+            mjRunning: false, // true when MathJax is processing
+            mjPending: false, // true when a typeset has been queued
+            oldText: null, // used to check if an update is needed
 
-          Init: function (source) {
-            this.preview = document.getElementById("solution_output");
-            this.buffer = document.getElementById("solution_buffer");
-          },
+            Init: function(source) {
+                this.preview = document.getElementById("solution_output");
+                this.buffer = document.getElementById("solution_buffer");
+            },
 
-          SwapBuffers: function () {
-            var buffer = this.preview, preview = this.buffer;
-            this.buffer = buffer; this.preview = preview;
-            buffer.style.visibility = "hidden"; buffer.style.position = "absolute";
-            preview.style.position = ""; preview.style.visibility = "";
-          },
+            SwapBuffers: function() {
+                var buffer = this.preview,
+                    preview = this.buffer;
+                this.buffer = buffer;
+                this.preview = preview;
+                buffer.style.visibility = "hidden";
+                buffer.style.position = "absolute";
+                preview.style.position = "";
+                preview.style.visibility = "";
+            },
 
-          Update: function () {
-            if (this.timeout) {clearTimeout(this.timeout)}
-            this.timeout = setTimeout(this.callback,this.delay);
-          },
+            Update: function() {
+                if (this.timeout) {
+                    clearTimeout(this.timeout)
+                }
+                this.timeout = setTimeout(this.callback, this.delay);
+            },
 
-          CreatePreview: function () {
-            Preview_TASK.timeout = null;
-            if (this.mjPending) return;
-            var text = document.getElementById("solution").value;
+            CreatePreview: function() {
+                Preview_TASK.timeout = null;
+                if (this.mjPending) return;
+                var text = document.getElementById("solution").value;
 
-            if (text === this.oldtext) return;
-            if (this.mjRunning) {
-              this.mjPending = true;
-              MathJax.Hub.Queue(["CreatePreview",this]);
-            } else {
-              this.buffer.innerHTML = this.oldtext = text;
-              this.mjRunning = true;
-              MathJax.Hub.Queue(
-            ["Typeset",MathJax.Hub,this.buffer],
-            ["PreviewDone",this]
-              );
+                if (text === this.oldtext) return;
+                if (this.mjRunning) {
+                    this.mjPending = true;
+                    MathJax.Hub.Queue(["CreatePreview", this]);
+                } else {
+                    this.buffer.innerHTML = this.oldtext = text;
+                    this.mjRunning = true;
+                    MathJax.Hub.Queue(
+                        ["Typeset", MathJax.Hub, this.buffer],
+                        ["PreviewDone", this]
+                    );
+                }
+            },
+            PreviewDone: function() {
+                this.mjRunning = this.mjPending = false;
+                this.SwapBuffers();
             }
-          },
-          PreviewDone: function () {
-            this.mjRunning = this.mjPending = false;
-            this.SwapBuffers();
-          }
         };
         //
         //  Cache a callback to the CreatePreview action
         //
-        window.onload = function(){
-                Preview_TASK.Init();
-                Preview_TASK.callback = MathJax.Callback("CreatePreview", Preview_TASK);
-                Preview_TASK.callback.autoReset = true;  // make sure it can run more than once
-                Preview_TASK.Update();
+        window.onload = function() {
+            Preview_TASK.Init();
+            Preview_TASK.callback = MathJax.Callback("CreatePreview", Preview_TASK);
+            Preview_TASK.callback.autoReset = true; // make sure it can run more than once
+            Preview_TASK.Update();
 
-                Preview_SOL.Init();
-                Preview_SOL.callback = MathJax.Callback("CreatePreview", Preview_SOL);
-                Preview_SOL.callback.autoReset = true;  // make sure it can run more than once
-                Preview_SOL.Update();
+            Preview_SOL.Init();
+            Preview_SOL.callback = MathJax.Callback("CreatePreview", Preview_SOL);
+            Preview_SOL.callback.autoReset = true; // make sure it can run more than once
+            Preview_SOL.Update();
         }
     </script>
     <script>
-
-        $("#task").keyup(function () {
+        $("#task").keyup(function() {
             Preview_TASK.Update()
         });
-        $("#solution").keyup(function () {
+        $("#solution").keyup(function() {
             Preview_SOL.Update()
+        });
+        $("#image").on("change", function() {
+            var file = this.files[0];
+            let reader = new FileReader();
+
+            reader.onload = function(event) {
+                $("#image-preview").attr("src", event.target.result);
+            };
+            reader.readAsDataURL(file);
         });
     </script>
 @endsection

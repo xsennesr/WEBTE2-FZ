@@ -18,4 +18,12 @@ class MathTask extends Model
         'publishing_at',
         "closing_at",
     ];
+    public static function imageToBase64($image) {
+        if(!$image) return null;
+        $extension = $image->getClientOriginalExtension();
+        $mime = $image->getMimeType();
+        $imageData = base64_encode(file_get_contents($image));
+        $dataUrl = 'data:' . $mime . ';' . $extension . ';base64,' . $imageData;
+        return $dataUrl;
+    }
 }

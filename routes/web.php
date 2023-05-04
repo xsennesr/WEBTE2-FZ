@@ -35,7 +35,7 @@ Route::prefix('teacher')->group(function () {
     Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
     Route::post('/upload', [ZipController::class, 'uploadFile'])->name('teacher.upload.zip');
     Route::get('/edit-task/{id}', [TeacherController::class, 'editTask'])->name('teacher.edit-task');
-    Route::get('/update-task', [TeacherController::class, 'updateTask'])->name('teacher.update-task');
+    Route::put('/update-task/{id}', [TeacherController::class, 'updateTask'])->name('teacher.update-task');
 });
 /*
 |--------------------------------------------------------------------------
