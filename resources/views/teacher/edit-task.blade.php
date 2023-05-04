@@ -9,7 +9,7 @@
                 renderActions: {
                     addMenu: []
                 },
-                skipHtmlTags: ["script", "style", "pre", "code"], //their contents won't be scanned for math
+                skipHtmlTags: ["script", "style","textarea", "pre", "code"], //their contents won't be scanned for math
                 includeHtmlTags: {
                     br: '\n',
                     wbr: '',
@@ -52,42 +52,43 @@
                     }
                 },
                 environments: {
-  task: ['{\\let\\displaystyle\\textstyle\\begin{aligned}', '\\end{aligned}}'],
-  solution: ['{\\let\\displaystyle\\textstyle\\begin{aligned}', '\\end{aligned}}']
-}
+                    task: ['{\\let\\displaystyle\\textstyle\\begin{aligned}', '\\end{aligned}}'],
+                    solution: ['{\\let\\displaystyle\\textstyle\\begin{aligned}', '\\end{aligned}}']
+                }
 
             },
-            svg: {
-                fontCache: 'global', // or 'local' or 'none'
-                mtextInheritFont: true, // required to correctly render RTL Persian text inside a formula
-                scale: 0.97, // global scaling factor for all expressions
-                minScale: 0.6 // smallest scaling factor to use
-            },
-            startup: {
-                typeset: true,
-                ready: function() {
-                    MathJax.startup.defaultReady();
-                    MathJax.startup.promise.then(function() {
-                        console.log("MathJax is ready to use!");
-                    });
-                }
-            }
+             svg: {
+                 fontCache: 'global', // or 'local' or 'none'
+                 mtextInheritFont: true, // required to correctly render RTL Persian text inside a formula
+                 scale: 0.97, // global scaling factor for all expressions
+                 minScale: 0.6 // smallest scaling factor to use
+             },
+             startup: {
+                 typeset: true,
+                 ready: function() {
+                     MathJax.startup.defaultReady();
+                     MathJax.startup.promise.then(function() {
+                         console.log("MathJax is ready to use!");
+                     });
+                 }
+             }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-\begin{task}
+    \begin{task}
     Nájdite prenosovú funkciu $F(s)=\dfrac{Y(s)}{W(s)}$ pre systém opísaný blokovou schémou:
-\end{task}
+    \end{task}
 
-
-
-
-\begin{solution}
     \begin{equation*}
-        \dfrac{2s^2+13s+10}{s^3+7s^2+18s+15}
+    Nájdite prenosovú funkciu $F(s)=\dfrac{Y(s)}{W(s)}$ pre systém opísaný blokovou schémou:
     \end{equation*}
-\end{solution}
+
+    \begin{solution}
+    \begin{equation*}
+    \dfrac{2s^2+13s+10}{s^3+7s^2+18s+15}
+    \end{equation*}
+    \end{solution}
 
 
 
@@ -105,6 +106,7 @@
         <div class="mb-3">
             <label for="task" class="form-label">Task</label>
             <textarea class="form-control" id="task" name="task" rows="6">{{ $priklad->task }}</textarea>
+            <div id="task-tex"></div>
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
@@ -113,6 +115,7 @@
         <div class="mb-3">
             <label for="solution" class="form-label">Solution</label>
             <textarea class="form-control" id="solution" name="solution" rows="6">{{ $priklad->solution }}</textarea>
+             <div id="solution-tex"></div>
         </div>
         <div class="mb-3">
             <label for="max_points" class="form-label">Max Points</label>

@@ -40,7 +40,6 @@ class ZipController extends Controller
             File::makeDirectory($extractPath, 0711, true, true);
         }
         $contentOfLatex = array();
-        $pathToFiles = array();
         if ($zip->open($name) === true) {
             $zip->extractTo($extractPath);
             $zip->close();
@@ -49,20 +48,11 @@ class ZipController extends Controller
                 if ($file->isDir() || $file->getExtension() !== 'tex') {
                     continue;
                 }
-                array_push($pathToFiles, $file->getPathname());
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                $mime = finfo_file($finfo, $file->getPathname());
-                finfo_close($finfo);
-                if (strpos($mime, 'image/') === 0) {
-                    continue;
-                }
                 array_push($contentOfLatex, [
                     'content' => File::get($file->getPathname()),
                     'batch_name' => basename($file, '.tex')
                 ], );
             }
-            File::delete($name);
-            File::deleteDirectory($tmpDirName);
             $regexSections = "/\\\\section\\*?\\{[^{}]*\\}\\s*(?:.|\\n)*?\\\\end\\{solution\\}/s";
             $regexTask = "/\\\\begin\\{task\\}\\s*(.*?)\s*\\\\end\\{task\\}/s";
             $regexSolution = "/\\\\begin\\{solution\\}\\s*(.*?)\s*\\\\end\\{solution\\}/s";
@@ -82,8 +72,6 @@ class ZipController extends Controller
                     'batch_name' =>  $file['batch_name']
                 ]);
             }
-            //$matchesSection = array_merge($matchesSection, $fileMatches[0]);
-            //dd($matchesSection);
             $finalArray = array();
             foreach ($matchesSection as $file) {
                 foreach($file['content'] as $section) {
@@ -111,6 +99,9 @@ class ZipController extends Controller
                     }
                 }
             }
+            dd($finalArray);
+            File::delete($name);
+            File::deleteDirectory($tmpDirName);
             return $finalArray;
         }
     }
