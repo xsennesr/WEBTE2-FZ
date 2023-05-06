@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MathBatch;
 use App\Models\MathTask;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -111,7 +112,7 @@ class ZipController extends Controller
                         "solution" => $matchesSolution[1],
                     ]);
                     try {
-                        MathTask::create([
+                        $task = MathTask::create([
                             "task_name" => $matchesTaskNames[0],
                             "task" => $matchesTask[1],
                             "image" => $base64Image,

@@ -31,4 +31,8 @@ class MathTask extends Model
         return $this->belongsTo(MathBatch::class);
     }
 
+    public function studenti(){
+        return $this->belongsToMany(User::class,'user_math_task');
+    }
+
 }
