@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class MathTask extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $fillable = [
-        'batch_name',
         'task_name',
         'task',
         'image',
         'solution',
-        'max_points',
-        'publishing_at',
-        "closing_at",
+        'batch_id',
     ];
     public static function imageToBase64($image) {
         if(!$image) return null;
@@ -26,4 +26,9 @@ class MathTask extends Model
         $dataUrl = 'data:' . $mime . ';' . $extension . ';base64,' . $imageData;
         return $dataUrl;
     }
+
+    public function sada(){
+        return $this->belongsTo(MathBatch::class);
+    }
+
 }

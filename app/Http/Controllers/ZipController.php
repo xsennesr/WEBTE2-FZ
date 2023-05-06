@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MathBatch;
 use App\Models\MathTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -80,6 +81,13 @@ class ZipController extends Controller
 
             $finalArray = array();
             foreach ($matchesSection as $file) {
+                try {
+                    $batch = MathBatch::create([
+                        'name' =>  $file['batch_name'],
+                    ]);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
                 foreach($file['content'] as $section) {
                     preg_match($regexTask, $section, $matchesTask);
                     preg_match($regexSolution, $section, $matchesSolution);
@@ -104,11 +112,11 @@ class ZipController extends Controller
                     ]);
                     try {
                         MathTask::create([
-                            "batch_name" => $file['batch_name'],
                             "task_name" => $matchesTaskNames[0],
                             "task" => $matchesTask[1],
                             "image" => $base64Image,
                             "solution" => $matchesSolution[1],
+                            'batch_id' => $batch->id,
                         ]);
                     } catch (\Throwable $th) {
                     }

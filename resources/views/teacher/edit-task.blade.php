@@ -24,10 +24,6 @@
         @csrf
         @method('PUT')
         <div class="mb-3">
-            <label for="batch_name" class="form-label ">Batch Name</label>
-            <input type="text" class="form-control" id="batch_name" name="batch_name" value="{{ $priklad->batch_name }}">
-        </div>
-        <div class="mb-3">
             <label for="task_name" class="form-label">Task Name</label>
             <input type="text" class="form-control" id="task_name" name="task_name" value="{{ $priklad->task_name }}">
         </div>
@@ -55,25 +51,6 @@
             {{ $priklad->solution }}
         </div>
         <div id="solution_buffer" class="hidden"></div>
-        <div class="mb-3">
-            <label for="max_points" class="form-label">Max Points</label>
-            <input type="number" class="form-control" id="max_points" name="max_points" value="{{ $priklad->max_points }}">
-        </div>
-        <div class="mb-3">
-            <label for="publishing_at" class="form-label">Publishing At</label>
-            <input type="datetime-local" class="form-control" id="publishing_at" name="publishing_at"
-                value="{{ $priklad->publishing_at }}">
-        </div>
-        <div class="mb-3">
-            <label for="closing_at" class="form-label">Closing At</label>
-            <input type="datetime-local" class="form-control" id="closing_at" name="closing_at"
-                value="{{ $priklad->closing_at }}">
-        </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="available" name="available"
-                {{ $priklad->available ? 'checked' : '' }}>
-            <label class="form-check-label" for="available">Available</label>
-        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <script defer>
@@ -132,7 +109,6 @@
                 Preview_TASK.timeout = null;
                 if (this.mjPending) return;
                 var text = document.getElementById("task").value;
-
                 if (text === this.oldtext) return;
                 if (this.mjRunning) {
                     this.mjPending = true;
@@ -163,12 +139,10 @@
             mjRunning: false, // true when MathJax is processing
             mjPending: false, // true when a typeset has been queued
             oldText: null, // used to check if an update is needed
-
             Init: function(source) {
                 this.preview = document.getElementById("solution_output");
                 this.buffer = document.getElementById("solution_buffer");
             },
-
             SwapBuffers: function() {
                 var buffer = this.preview,
                     preview = this.buffer;
@@ -179,19 +153,16 @@
                 preview.style.position = "";
                 preview.style.visibility = "";
             },
-
             Update: function() {
                 if (this.timeout) {
                     clearTimeout(this.timeout)
                 }
                 this.timeout = setTimeout(this.callback, this.delay);
             },
-
             CreatePreview: function() {
                 Preview_TASK.timeout = null;
                 if (this.mjPending) return;
                 var text = document.getElementById("solution").value;
-
                 if (text === this.oldtext) return;
                 if (this.mjRunning) {
                     this.mjPending = true;
@@ -218,7 +189,6 @@
             Preview_TASK.callback = MathJax.Callback("CreatePreview", Preview_TASK);
             Preview_TASK.callback.autoReset = true; // make sure it can run more than once
             Preview_TASK.Update();
-
             Preview_SOL.Init();
             Preview_SOL.callback = MathJax.Callback("CreatePreview", Preview_SOL);
             Preview_SOL.callback.autoReset = true; // make sure it can run more than once
@@ -235,7 +205,6 @@
         $("#image").on("change", function() {
             var file = this.files[0];
             let reader = new FileReader();
-
             reader.onload = function(event) {
                 $("#image-preview").attr("src", event.target.result);
             };

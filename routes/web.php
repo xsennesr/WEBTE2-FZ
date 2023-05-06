@@ -34,8 +34,10 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 Route::prefix('teacher')->group(function () {
     Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
     Route::post('/upload', [ZipController::class, 'uploadFile'])->name('teacher.upload.zip');
-    Route::get('/edit-task/{id}', [TeacherController::class, 'editTask'])->name('teacher.edit-task');
+    Route::get('/edit-batch/{batch_id}/edit-task/{task_id}', [TeacherController::class, 'editTask'])->name('teacher.edit-task');
     Route::put('/update-task/{id}', [TeacherController::class, 'updateTask'])->name('teacher.update-task');
+    Route::get('/edit-batch/{id}', [TeacherController::class, 'editBatch'])->name('teacher.edit-batch');
+    Route::put('/update-batch/{id}', [TeacherController::class, 'updateBatch'])->name('teacher.update-batch');
 });
 /*
 |--------------------------------------------------------------------------
