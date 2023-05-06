@@ -46,4 +46,5 @@ Route::prefix('teacher')->group(function () {
 */
 Route::prefix('student')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::post('/generate-task', [StudentController::class, 'generateTask'])->name('student.generate-task');
 });
