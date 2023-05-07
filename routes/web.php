@@ -48,8 +48,14 @@ Route::prefix('teacher')->group(function () {
 Route::prefix('student')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
     Route::post('/generate-task', [StudentController::class, 'generateTask'])->name('student.generate-task');
+    Route::get('/render-task/{id}', [StudentController::class, 'renderTask'])->name('student.render-task');
+    Route::post('/submit-task/', [StudentController::class, 'submitTask'])->name('student.submit-task');
 })->middleware('auth');
-
+/*
+|--------------------------------------------------------------------------
+|                   Auth Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
