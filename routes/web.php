@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\ZipController;
 use App\Http\Controllers\TeacherController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-})->name('index');
+})->name('index')->middleware('auth');
 
 
 Route::get('lang/home', [LangController::class, 'index'])->middleware(LanguageManager::class);
@@ -38,7 +39,7 @@ Route::prefix('teacher')->group(function () {
     Route::put('/update-task/{id}', [TeacherController::class, 'updateTask'])->name('teacher.update-task');
     Route::get('/edit-batch/{id}', [TeacherController::class, 'editBatch'])->name('teacher.edit-batch');
     Route::put('/update-batch/{id}', [TeacherController::class, 'updateBatch'])->name('teacher.update-batch');
-});
+})->middleware('auth');
 /*
 |--------------------------------------------------------------------------
 |                   Student Routes
@@ -46,4 +47,17 @@ Route::prefix('teacher')->group(function () {
 */
 Route::prefix('student')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+})->middleware('auth');
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+require __DIR__.'/auth.php';
