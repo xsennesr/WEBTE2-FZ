@@ -15,9 +15,8 @@ class TeacherController extends Controller
     }
 
     public function editTask($batch_id,$task_id)
-    {   
+    {
         $priklad = MathTask::where('id', $task_id)->first();
-        dd($priklad->studenti);
         return view('teacher.edit-task', ['priklad' => $priklad]);
     }
 
@@ -47,6 +46,7 @@ class TeacherController extends Controller
 
     public function updateTask(Request $request, $id)
     {
+        dd("asdad");
         $task = MathTask::findOrFail($id);
         $updated = $task->update([
             'task_name' => $request->input('task_name'),

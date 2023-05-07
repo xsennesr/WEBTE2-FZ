@@ -13,6 +13,7 @@ class MathBatch extends Model
 
     protected $fillable = [
         'name',
+        'available',
         'max_points',
         'publishing_at',
         "closing_at",
