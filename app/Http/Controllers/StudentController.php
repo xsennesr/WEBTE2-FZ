@@ -18,8 +18,9 @@ class StudentController extends Controller
             ->orWhere(function ($query) use ($currentDate) {
                 $query->where('available', false)
                 ->where(function ($query) use ($currentDate) {
-                    $query->whereDate('publishing_at', '<=', $currentDate)
-                        ->orWhereNull('publishing_at');
+                    $query->whereNotNull('publishing_at')
+                    ->where('publishing_at', '<=', $currentDate)
+                        ->orWhereNotNull('closing_at');
                 });
             });
         })
@@ -28,7 +29,7 @@ class StudentController extends Controller
             ->orWhereNull('closing_at');
         })
         ->get();
-
+        dd($availableBatches);
         $user = Auth::user();
         $userId = $user->id;;
         $user2 = User::find($userId);

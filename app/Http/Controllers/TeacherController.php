@@ -35,6 +35,7 @@ class TeacherController extends Controller
             'max_points' => $request->input('max_points'),
             'available' => boolval($request->input('available')),
             'publishing_at' => $request->input('publishing_at'),
+            'closing_at' => $request->input('closing_at'),
         ]);
         if($updated) {
             return back()->with('success', 'Sada uspesne zmenena!');
