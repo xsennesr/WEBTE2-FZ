@@ -10,6 +10,7 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
     @yield('additional_head')
-    @vite(['resources/js/app.js'])
+    {{-- @vite(['resources/js/app.js']) --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Document</title>
 </head>
