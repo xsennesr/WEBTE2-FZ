@@ -64,6 +64,7 @@ class StudentController extends Controller
         return view('student.render-task', ['task'=>$task]);
     }
     public function submitTask(Request $request) {
-
+        dd($request->input('user-solution'));
+        return back()->with('error', 'Uz si si vygeneroval vsetky priklady z tejto sady!');
     }
 }
