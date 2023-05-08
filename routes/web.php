@@ -7,6 +7,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Middleware\LanguageManager;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::get('/', function () {
     return view('index');
 })->name('index')->middleware('auth');
 
+//Route::get('/', [LangController::class, 'registration'])->middleware(LanguageManager::class);
 
 Route::get('lang/home', [LangController::class, 'index'])->middleware(LanguageManager::class);
 

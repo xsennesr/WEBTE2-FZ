@@ -52,22 +52,23 @@
 </x-guest-layout> --}}
 @extends('layout.layout-default')
 @section('content')
-    <form method="POST" action="{{ route('register') }}"
-    class="w-1/2 m-auto "
-    >
-        @csrf
+    <div class="container-fluid d-flex justify-content-center vh-100 align-items-center">
+        <form method="POST" action="{{ route('register') }}"
+              class="bg-secondary px-5 py-4 rounded bg-opacity-25 w-50">
+            @csrf
 
-        <!-- Name -->
-        <div class="flex flex-col">
-            <label for="name" 
-            class="block mb-2 text-sm font-medium text-gray-900">
-                Name
-            </label>
-            <input type="text" id="name"  name="name"
-             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-             placeholder="John"
-             required>
-             <span class="text-red-500">
+            <h4 class="text-center text-dark text-decoration-underline mb-3"> {{ __('login-page.sign-up')  }}</h4>
+
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name" class="mb-1">
+                    {{ __('login-page.name')  }}
+                </label>
+                <input type="text" id="name" name="name"
+                       class="form-control form-control-sm"
+                       placeholder="John"
+                       required>
+                <span class="text-danger">
                 <ul>
                     @foreach ($errors->get('name') as $err )
                         <li>
@@ -75,18 +76,18 @@
                         </li>
                     @endforeach
             </span>
-        </div>
-        <!-- Email Address -->
-        <div class="flex flex-col">
-            <label for="email"
-            class="block mb-2 text-sm font-medium text-gray-900">
-                Email
-            </label>
-            <input type="email" id="email" name="email"
-             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-             placeholder="xname@stuba.sk"
-             required>
-             <span class="text-red-500">
+            </div>
+
+            <!-- Email Address -->
+            <div class="form-group">
+                <label for="email" class="mb-1">
+                    Email
+                </label>
+                <input type="email" id="email" name="email"
+                       class="form-control form-control-sm"
+                       placeholder="{{ __('login-page.email-placeholder')  }}"
+                       required>
+                <span class="text-danger">
                 <ul>
                     @foreach ($errors->get('email') as $err )
                         <li>
@@ -94,19 +95,18 @@
                         </li>
                     @endforeach
             </span>
-        </div>
+            </div>
 
-        <!-- Password -->
-        <div class="flex flex-col">
-            <label for="password" 
-            class="block mb-2 text-sm font-medium text-gray-900">
-                Password
-            </label>
-            <input type="password" id="password" name="password"
-             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-             placeholder="•••••••••"
-             required>
-             <span class="text-red-500">
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password" class="mb-1">
+                    {{ __('login-page.passw')  }}
+                </label>
+                <input type="password" id="password" name="password"
+                       class="form-control form-control-sm"
+                       placeholder="•••••••••"
+                       required>
+                <span class="text-danger">
                 <ul>
                     @foreach ($errors->get('password') as $err )
                         <li>
@@ -114,19 +114,18 @@
                         </li>
                     @endforeach
             </span>
-        </div>
+            </div>
 
-        <!-- Confirm Password -->
-        <div class="flex flex-col">
-            <label for="password_confirmation" 
-            class="block mb-2 text-sm font-medium text-gray-900">
-                Confirm password
-            </label>
-            <input type="password" id="password_confirmation"  name="password_confirmation"
-             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-             placeholder="•••••••••"
-             required>
-             <span class="text-red-500">
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="password_confirmation" class="mb-1">
+                    {{ __('login-page.conf-passw')  }}
+                </label>
+                <input type="password" id="password_confirmation"  name="password_confirmation"
+                       class="form-control form-control-sm"
+                       placeholder="•••••••••"
+                       required>
+                <span class="text-danger">
                 <ul>
                     @foreach ($errors->get('password_confirmation') as $err )
                         <li>
@@ -134,26 +133,25 @@
                         </li>
                     @endforeach
             </span>
-        </div>
-       
-        <div class="flex flex-col">
-            <label for="teacher" 
-            class="block mb-2 text-sm font-medium text-gray-900">
-                Teacher
-            </label>
-            <input type="checkbox" id="teacher"  name="teacher"
-             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 ">
-        </div>
+            </div>
 
-        <div class="flex flex-col">
-            <label for="teacher_token" id="teacher_label" 
-            class="hidden mb-2 text-sm font-medium text-gray-900">
-                Teacher token
-            </label>
-            <input type="text" id="teacher_token"  name="teacher_token"
-             class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 "
-             >
-             <span class="text-red-500">
+            <!-- Teacher Check-box -->
+            <div class="form-group">
+                <div class="form-check">
+                    <label class="form-check-label" for="teacher">
+                        {{ __('login-page.teacher')  }}
+                    </label>
+                    <input class="form-check-input" type="checkbox" id="teacher" name="teacher">
+                </div>
+            </div>
+
+            <!-- Teacher Token -->
+            <div class="form-group mt-3" id="teacherBox" style="display: none">
+                <label for="teacher_token" id="teacher_label" class="mb-1">
+                    {{ __('login-page.token')  }}
+                </label>
+                <input type="text" id="teacher_token" name="teacher_token" class="form-control form-control-sm">
+                <span class="text-danger">
                 <ul>
                     @foreach ($errors->get('teacher_token') as $err )
                         <li>
@@ -161,35 +159,40 @@
                         </li>
                     @endforeach
             </span>
-            <script>
-                var teacherCheckbox = document.getElementById('teacher');
-                var teacherToken = document.getElementById('teacher_token');
-                var teacherLabel = document.getElementById('teacher_label');
-            
-                teacherCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        teacherToken.style.display = 'block';
-                        teacherLabel.style.display = 'block';
-                    } else {
-                        teacherToken.style.display = 'none';
-                        teacherLabel.style.display = 'none';
-                    }
-                });
-            </script>
-        </div>
+                <script>
+                    let teacherCheckbox = document.getElementById('teacher');
+                    let teacherBox = document.getElementById('teacherBox');
 
-        
-        
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <button type="submit" class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                {{ __('Register') }}
-            </button>
-        </div>
-    </form>
+                    teacherCheckbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            teacherBox.style.display = 'block';
+                        } else {
+                            teacherBox.style.display = 'none';
+                        }
+                    });
+                </script>
+            </div>
 
 
+            <div class="form-group mt-4 d-flex justify-content-center">
+                <button type="submit" class="btn btn-dark w-50">
+                    {{ __('login-page.reg-butt')  }}
+                </button>
+            </div>
+
+            <div class="form-group mt-2">
+                <small class="form-text text-muted"> {{ __('login-page.muted-text-reg')  }} </small>
+                <a href="{{ route('login') }}" class="text-dark"> {{ __('login-page.butt-redirect-log')  }}</a>
+            </div>
+
+        </form>
+    </div>
+
+    <style>
+        @media screen and (max-width: 990px) {
+            form {
+                min-width: 90vw!important;
+            }
+        }
+    </style>
 @endsection
