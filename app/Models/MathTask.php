@@ -32,7 +32,7 @@ class MathTask extends Model
     }
 
     public function studenti(){
-        return $this->belongsToMany(User::class,'user_math_task');
+        return $this->belongsToMany(User::class,'user_math_task')->withPivot('user_id', 'math_task_id', 'user_solution', 'submitted', 'points', 'result');
     }
 
 }

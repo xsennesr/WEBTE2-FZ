@@ -14,7 +14,7 @@
         <input type="file" name="my-file" id="">
         <input type="submit" name="submit" id="">
     </form>
-   
+
     @if (isset($sady))
         <div class="m-5">
 
@@ -33,8 +33,8 @@
                     @foreach ($sady as $sada)
                         <tr>
                             <td>{{ $sada->name }}</td>
-                            <td>{{ $sada->max_points }}</td>
-                            <td>{{ $sada->available }}</td>
+                            <td>{{ $sada->max_points ?? 'Undefined'}}</td>
+                            <td>{{ $sada->available ? 'Yes' : 'No' }}</td>
                             <td>{{ $sada->publishing_at }}</td>
                             <td>{{ $sada->closing_at }}</td>
                             <td><a href="{{ route('teacher.edit-batch', ['id' => $sada->id]) }}"type="button" class="btn btn-primary"

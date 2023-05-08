@@ -26,5 +26,5 @@
 
 config.php
 sftp.json
-
+.env
 public/storage

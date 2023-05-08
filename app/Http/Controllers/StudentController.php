@@ -7,6 +7,7 @@ use App\Models\MathTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+
 class StudentController extends Controller
 {
     public function dashboard()
@@ -15,27 +16,21 @@ class StudentController extends Controller
 
         $availableBatches = MathBatch::where(function ($query) use ($currentDate) {
             $query->where('available', true)
-            ->orWhere(function ($query) use ($currentDate) {
-                $query->where('available', false)
-                ->where(function ($query) use ($currentDate) {
-                    $query->whereNotNull('publishing_at')
-                    ->where('publishing_at', '<=', $currentDate)
-                        ->orWhereNotNull('closing_at');
+                ->orWhere(function ($query) use ($currentDate) {
+                    $query->where('available', false)
+                        ->where(function ($query) use ($currentDate) {
+                            $query->whereNotNull('publishing_at')
+                                ->where('publishing_at', '<=', $currentDate)
+                                ->orWhereNotNull('closing_at');
+                        });
                 });
-            });
         })
-        ->where(function ($query) use ($currentDate) {
-            $query->whereDate('closing_at', '>=', $currentDate)
-            ->orWhereNull('closing_at');
-        })
-        ->get();
-        //dd($availableBatches);
-        $user = Auth::user();
-        $userId = $user->id;;
-        $user2 = User::find($userId);
-        $generatedTasks = $user2->priklady()->get();
-        //dd($generatedTasks);
-        return view('student.dashboard', ['batches' => $availableBatches, 'tasks' => $generatedTasks]);
+            ->where(function ($query) use ($currentDate) {
+                $query->whereDate('closing_at', '>=', $currentDate)
+                    ->orWhereNull('closing_at');
+            })
+            ->get();
+        return view('student.dashboard', ['batches' => $availableBatches, 'tasks' => Auth::user()->priklady]);
     }
     public function generateTask(Request $request)
     {
@@ -45,6 +40,9 @@ class StudentController extends Controller
         $user2 = User::find($userId);
 
         $selectedBatches = $request->input('selected-batch', []);
+        if (!$selectedBatches) {
+            return back()->with('error', 'Vyber aspon jednu sadu');
+        }
         $randomTask = MathTask::whereIn('batch_id', $selectedBatches)
             ->whereNotIn('id', function ($query) use ($userId) {
                 $query->select('math_task_id')
@@ -53,7 +51,7 @@ class StudentController extends Controller
             })
             ->inRandomOrder()
             ->first();
-        if(!$randomTask) {
+        if (!$randomTask) {
             return back()->with('error', 'Uz si si vygeneroval vsetky priklady z tejto sady!');
         }
         $user2->priklady()->attach($randomTask->id);
@@ -62,10 +60,12 @@ class StudentController extends Controller
     public function renderTask($id)
     {
         $task = MathTask::find($id);
-        return view('student.render-task', ['task'=>$task]);
+        $priklad = Auth::user()->priklady->firstWhere('pivot.math_task_id', $id)->pivot;
+        return view('student.render-task', ['task' => $task, 'priklad' => $priklad]);
     }
-    public function submitTask(Request $request) {
+    public function submitTask(Request $request)
+    {
         dd($request->input('user-solution'));
-        return back()->with('error', 'Uz si si vygeneroval vsetky priklady z tejto sady!');
+        return back();
     }
 }

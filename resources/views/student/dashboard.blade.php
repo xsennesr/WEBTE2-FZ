@@ -24,6 +24,9 @@
                 <thead>
                     <tr>
                         <th>Nazov prikladu</th>
+                        <th>Odovzdane</th>
+                         <th>Vysledok</th>
+                        <th>Ziskane body</th>
                         <th>Akcia</th>
                     </tr>
                 </thead>
@@ -31,6 +34,10 @@
                     @foreach ($tasks as $priklad)
                         <tr>
                             <td>{{ $priklad->task_name }}</td>
+                             <td>{{ $priklad->pivot->submitted ? 'Ano' : "Nie" }}</td>
+                             <td>{{ $priklad->pivot->result ? 'Spravny' : ($priklad->result === false ? 'Nespravny' : 'Este ziadny') }}</td>
+
+                              <td>{{ $priklad->pivot->points}}</td>
                             <td><a href="{{route('student.render-task', $priklad->id)}}"type="button"
                                     class="btn btn-primary">Vyries</a>
                         </tr>

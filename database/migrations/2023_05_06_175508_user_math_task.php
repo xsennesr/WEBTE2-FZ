@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('math_task_id')->references('id')->on('math_tasks')->onDelete('cascade');
 
             $table->boolean('result')->nullable()->default(null);
+            $table->text('user_solution')->nullable()->default(null);
             $table->boolean('submitted')->nullable()->default(false);
             $table->integer('points')->nullable()->default(0);
         });

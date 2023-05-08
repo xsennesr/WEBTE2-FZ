@@ -22,28 +22,29 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <div class="task-wording">
+                        <p>{{ $task->task }}</p>
+                        @if ($task->image)
+                            <img class="img-fluid" src="{{ $task->image }}" alt="">
+                        @endif
+                    </div>
+                </div>
                 <form action="{{ route('student.submit-task') }}" method="POST">
                     @csrf
-
-                    <div class="form-group">
-                        <div class="task-wording">
-                            <p>{{ $task->task }}</p>
-                            @if ($task->image)
-                                <img class="img-fluid" src="{{ $task->image }}" alt="">
-                            @endif
-                        </div>
-                    </div>
-
                     <div class="form-group w-75 p-3">
                         <label for="solution">Solution:</label>
                         <input type="hidden" name="user-solution" id="user-solution-hidden">
                         <math-field id="user-solution" name="user-solution" required></math-field>
                     </div>
-
-
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
+            @if ($priklad->user_solution)
+                <p>Your solution:</p>
+                <p>{{ $priklad->user_solution }}</p>
+            @endif
+
         </div>
     </div>
     <script>
