@@ -29,7 +29,7 @@ class StudentController extends Controller
             ->orWhereNull('closing_at');
         })
         ->get();
-        dd($availableBatches);
+        //dd($availableBatches);
         $user = Auth::user();
         $userId = $user->id;;
         $user2 = User::find($userId);

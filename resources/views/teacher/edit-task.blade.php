@@ -42,7 +42,7 @@
             <input type="file" class="form-control" id="image" name="image"
                 accept=".jpg, .png, .jpeg, .webp, .gif">
             <input type="hidden" name="image-base64" id="image-base64" value="{{ $priklad->image }}">
-            <img id="image-preview" src="{{ $priklad->image }}" alt="">
+            <img id="image-preview" class="img-fluid" src="{{ $priklad->image }}" alt="">
         </div>
         <div class="mb-3">
             <label for="solution" class="form-label">Solution</label>

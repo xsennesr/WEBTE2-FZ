@@ -48,23 +48,22 @@
 {{-- </x-guest-layout> --}}
 @extends('layout.layout-default')
 @section('content')
-    <form method="POST" action="{{ route('login') }}"
-    class="w-1/2 m-auto "
-    >
-        @csrf
+    <div class="container-fluid d-flex justify-content-center vh-100 align-items-center">
+        <form method="POST" action="{{ route('login') }}"
+              class="bg-secondary p-5 rounded bg-opacity-25 m-auto w-50">
+            @csrf
 
-        
-        <!-- Email Address -->
-        <div class="flex flex-col">
-            <label for="email"
-            class="block mb-2 text-sm font-medium text-gray-900">
-                Email
-            </label>
-            <input type="email" id="email" name="email"
-             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-             placeholder="xname@stuba.sk"
-             required>
-             <span class="text-red-500">
+
+            <!-- Email Address -->
+            <div class="form-group flex flex-col">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
+                    Email
+                </label>
+                <input type="email" id="email" name="email"
+                       class="form-control"
+                       placeholder="xname@stuba.sk"
+                       required>
+                <span class="text-red-500">
                 <ul>
                     @foreach ($errors->get('email') as $err )
                         <li>
@@ -72,19 +71,19 @@
                         </li>
                     @endforeach
             </span>
-        </div>
+            </div>
 
-        <!-- Password -->
-        <div class="flex flex-col">
-            <label for="password" 
-            class="block mb-2 text-sm font-medium text-gray-900">
-                Password
-            </label>
-            <input type="password" id="password" name="password"
-             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-             placeholder="•••••••••"
-             required>
-             <span class="text-red-500">
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password"
+                       class="block mb-2 text-sm font-medium text-gray-900">
+                    Password
+                </label>
+                <input type="password" id="password" name="password"
+                       class="form-control"
+                       placeholder="•••••••••"
+                       required>
+                <span class="text-red-500">
                 <ul>
                     @foreach ($errors->get('password') as $err )
                         <li>
@@ -92,19 +91,21 @@
                         </li>
                     @endforeach
             </span>
-        </div>
+            </div>
 
-    
 
-        
-        
-        <div class="flex items-center justify-end mt-4">
+            <div class="form-group mt-5">
 
-            <button type="submit" class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                {{ __('Log in') }}
-            </button>
-        </div>
-    </form>
+                <button type="submit" class="btn btn-dark w-100">
+                    {{ __('Log in') }}
+                </button>
+            </div>
 
+            <div class="form-group mt-2">
+                <small class="form-text text-muted">Not registered yet?</small>
+                <a href="{{ route('register') }}" style="color: black"> Register</a>
+            </div>
+        </form>
+    </div>
 
 @endsection

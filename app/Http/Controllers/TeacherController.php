@@ -47,7 +47,6 @@ class TeacherController extends Controller
 
     public function updateTask(Request $request, $id)
     {
-        dd("asdad");
         $task = MathTask::findOrFail($id);
         $updated = $task->update([
             'task_name' => $request->input('task_name'),
