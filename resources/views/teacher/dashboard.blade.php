@@ -48,7 +48,7 @@
             <table id="students" class="display">
                 <thead>
                     <tr>
-                        <th>Meno</th>
+                        <th>{{ __('messages.name')  }}</th>
                         <th>ID</th>
                         <th>Vygenerované</th>
                         <th>Odovzdané</th>
@@ -72,6 +72,14 @@
         <script>
             let table = new DataTable('#sady');
             let table2 = new DataTable('#students');
+        </script>
+
+        <script type="text/javascript">
+            var url = "{{ route('changeLang') }}";
+            $(".changeLang").change(function(){
+                window.location.href = url + "?lang="+ $(this).val();
+                console.log($(this).val());
+            });
         </script>
     @endif
 

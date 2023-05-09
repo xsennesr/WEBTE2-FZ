@@ -35,6 +35,8 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 |--------------------------------------------------------------------------
 */
 Route::prefix('teacher')->group(function () {
+    Route::get('/lang/home', [LangController::class, 'index'])->middleware(LanguageManager::class);
+    Route::get('/lang/change', [LangController::class, 'change'])->name('changeLang');
     Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
     Route::post('/upload', [ZipController::class, 'uploadFile'])->name('teacher.upload.zip');
     Route::get('/edit-batch/{batch_id}/edit-task/{task_id}', [TeacherController::class, 'editTask'])->name('teacher.edit-task');
