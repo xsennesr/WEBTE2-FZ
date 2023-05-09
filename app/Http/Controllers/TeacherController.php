@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MathBatch;
 use App\Models\MathTask;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -11,7 +12,8 @@ class TeacherController extends Controller
     public function dashboard()
     {
         $sady = MathBatch::all();
-        return view('teacher.dashboard', ['sady'=> $sady]);
+        $users = User::all();
+        return view('teacher.dashboard', ['sady'=> $sady, 'users'=> $users]);
     }
 
     public function editTask($batch_id,$task_id)

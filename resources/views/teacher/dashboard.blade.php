@@ -44,9 +44,33 @@
 
                 </tbody>
             </table>
+
+            <table id="students" class="display">
+                <thead>
+                    <tr>
+                        <th>Meno</th>
+                        <th>ID</th>
+                        <th>Vygenerované</th>
+                        <th>Odovzdané</th>
+                        <th>Počet bodov</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $user)
+                    <tr>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->id }}</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>{{ $user->priklady->sum('pivot.points') }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
         <script>
             let table = new DataTable('#sady');
+            let table2 = new DataTable('#students');
         </script>
     @endif
 
