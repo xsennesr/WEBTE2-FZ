@@ -6,6 +6,7 @@ use App\Models\MathBatch;
 use App\Models\MathTask;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class TeacherController extends Controller
 {
@@ -61,5 +62,36 @@ class TeacherController extends Controller
         } else {
             return back()->with('error', 'Priklad sa nepodarilo zmenit');
         }
+    }
+
+    public function exportCsv()
+    {
+        $users = User::all();
+        $csvFileName = 'students.csv';
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$csvFileName",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+        $handle = fopen('php://temp', 'w');
+        $bom = chr(0xEF) . chr(0xBB) . chr(0xBF);
+        fwrite($handle, $bom);
+        fputcsv($handle, ['Meno', 'ID', 'Vygenerované', 'Odovzdané', 'Počet bodov'], ';');
+        foreach ($users as $user) {
+            fputcsv($handle, [
+                $user->name,
+                $user->id,
+                0,
+                0,
+                $user->priklady->sum('pivot.points')
+            ], ';');
+        }
+        fseek($handle, 0);
+        $csvContent = stream_get_contents($handle);
+        fclose($handle);
+        $response = Response::make($csvContent, 200, $headers);
+        return $response;
     }
 }

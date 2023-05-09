@@ -41,6 +41,7 @@ Route::prefix('teacher')->group(function () {
     Route::put('/update-task/{id}', [TeacherController::class, 'updateTask'])->name('teacher.update-task');
     Route::get('/edit-batch/{id}', [TeacherController::class, 'editBatch'])->name('teacher.edit-batch');
     Route::put('/update-batch/{id}', [TeacherController::class, 'updateBatch'])->name('teacher.update-batch');
+    Route::get('teacher/export-csv', [TeacherController::class, 'exportCsv'])->name('teacher.export-csv');
 })->middleware('auth');
 /*
 |--------------------------------------------------------------------------

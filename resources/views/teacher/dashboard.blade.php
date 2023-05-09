@@ -67,6 +67,7 @@
                     @endforeach
                 </tbody>
             </table>
+            <a href="{{ route('teacher.export-csv') }}" class="btn btn-primary">Download CSV</a>
         </div>
         <script>
             let table = new DataTable('#sady');
