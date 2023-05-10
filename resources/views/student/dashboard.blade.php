@@ -50,5 +50,5 @@
         <script>
             let table = new DataTable('#priklady');
         </script>
-
+   
     @endsection

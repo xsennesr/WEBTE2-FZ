@@ -56,4 +56,12 @@
             $('#user-solution-hidden').val(mathFieldContent);
         });
     </script>
+    <script type="module">
+  import { ComputeEngine } from
+    'https://unpkg.com/@cortex-js/compute-engine?module';
+
+  const ce = new ComputeEngine();
+  console.log(ce.parse('\\dfrac{6}{(5s+2)^2}e^{-4s}').json);
+  // ➔ "-1"
+</script>
 @endsection
