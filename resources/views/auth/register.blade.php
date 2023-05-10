@@ -52,7 +52,7 @@
 </x-guest-layout> --}}
 @extends('layout.layout-default')
 @section('content')
-    <div class="container-fluid d-flex justify-content-center vh-100 align-items-center">
+    <div class="container-fluid d-flex justify-content-center vh-100 align-items-center my-5">
         <form method="POST" action="{{ route('register') }}"
               class="bg-secondary px-5 py-4 rounded bg-opacity-25 w-50">
             @csrf

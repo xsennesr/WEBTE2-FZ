@@ -22,39 +22,59 @@
     </script> --}}
 
 
-    <form method="POST" action="{{ route('teacher.update-task', $priklad->id) }}" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        <div class="mb-3">
-            <label for="task_name" class="form-label">Task Name</label>
-            <input type="text" class="form-control" id="task_name" name="task_name" value="{{ $priklad->task_name }}">
-        </div>
-        <div class="mb-3">
-            <label for="task" class="form-label">Task</label>
-            <textarea class="form-control" id="task" name="task" rows="6">{{ $priklad->task }}</textarea>
-        </div>
-        <div id="task_output" class="mb-3">
-            {{ $priklad->task }}
-        </div>
-        <div id="task_buffer" class="hidden"></div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Image</label>
-            <input type="file" class="form-control" id="image" name="image"
-                accept=".jpg, .png, .jpeg, .webp, .gif">
-            <input type="hidden" name="image-base64" id="image-base64" value="{{ $priklad->image }}">
-            <img id="image-preview" class="img-fluid" src="{{ $priklad->image }}" alt="">
-        </div>
-        <div class="mb-3">
-            <label for="solution" class="form-label">Solution</label>
-            <textarea class="form-control" id="solution" name="solution" rows="6">{{ $priklad->solution }}</textarea>
-            <div id="solution-tex"></div>
-        </div>
-        <div id="solution_output" class="mb-3">
-            {{ $priklad->solution }}
-        </div>
-        <div id="solution_buffer" class="hidden"></div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    <div class="fs-5 mt-3 mb-2 rounded py-2 px-3" style="background-color: lightsteelblue; width: fit-content">
+        Edit task
+    </div>
+
+    <div class="container-fluid bg-light rounded my-3 p-4 d-flex justify-content-center">
+        <form method="POST" action="{{ route('teacher.update-task', $priklad->id) }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="mb-4">
+                <label for="task_name" class="form-label text-decoration-underline">Task Name</label>
+                <input type="text" class="form-control form-control-sm" id="task_name"
+                       name="task_name" value="{{ $priklad->task_name }}">
+            </div>
+            <div class="mb-4">
+                <label for="task" class="form-label text-decoration-underline">Task</label>
+                <textarea class="form-control form-control-sm" id="task" name="task" rows="6">{{ $priklad->task }}</textarea>
+            </div>
+            <div id="task_output" class="mb-5">
+                {{ $priklad->task }}
+            </div>
+            <div id="task_buffer" class="hidden"></div>
+            <div class="my-4">
+                <label for="image" class="form-label text-decoration-underline">Image</label>
+                <input type="file" class="form-control form-control-sm mb-4" id="image" name="image"
+                       accept=".jpg, .png, .jpeg, .webp, .gif">
+                <input type="hidden" name="image-base64" id="image-base64" value="{{ $priklad->image }}">
+                <img id="image-preview" class="w-75 h-auto mx-auto d-block img-fluid" src="{{ $priklad->image }}" alt="">
+            </div>
+            <div class="mb-4">
+                <label for="solution" class="form-label text-decoration-underline">Solution</label>
+                <textarea class="form-control form-control-sm" id="solution" name="solution" rows="6">{{ $priklad->solution }}</textarea>
+                <div id="solution-tex"></div>
+            </div>
+            <div id="solution_output" class="mb-4">
+                {{ $priklad->solution }}
+            </div>
+            <div id="solution_buffer" class="hidden"></div>
+            <div class="d-flex justify-content-end mt-2">
+                <button type="submit" class="btn btn-light ml-auto" style="background: lightsteelblue">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        @media screen and (max-width: 990px) {
+            img {
+                min-width: 100%!important;
+            }
+        }
+    </style>
+
     <script defer>
         var Preview_TASK = {
             delay: 10, // delay after keystroke before updating

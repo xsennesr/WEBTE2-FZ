@@ -2,10 +2,10 @@
 <html lang="en">
 @include('layout.includes.head')
 
-<body class="vh-100">
+<body style="min-height: 100vh">
     @include('layout.includes.navbar')
 
-    <div class="container vh-100">
+    <div class="container" style="min-height: 100vh">
         @include('misc.flash-message')
         @yield('content')
     </div>
