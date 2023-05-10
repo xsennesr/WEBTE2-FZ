@@ -13,7 +13,8 @@ class TeacherController extends Controller
     public function dashboard()
     {
         $sady = MathBatch::all();
-        $users = User::all();
+        $users = User::where('ucitel', false)->get();
+        //$users = User::all();
         return view('teacher.dashboard', ['sady'=> $sady, 'users'=> $users]);
     }
 
@@ -66,7 +67,7 @@ class TeacherController extends Controller
 
     public function exportCsv()
     {
-        $users = User::all();
+        $users = User::where('ucitel', false)->get();
         $csvFileName = 'students.csv';
         $headers = array(
             "Content-type" => "text/csv",
