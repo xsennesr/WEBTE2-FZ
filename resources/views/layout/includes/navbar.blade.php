@@ -24,12 +24,13 @@
                             <a class="nav-link" href="{{ route('teacher.dashboard') }}">Teacher</a>
                         </li>
                     @endif
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('student.dashboard') }}">Student</a>
-                    </li>
+                    </li><!--
                     <li class="nav-item">
                         <a class="nav-link" href="/lang/home">lang/home</a>
-                    </li>
+                    </li>-->
                     {{-- <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown link
@@ -41,6 +42,17 @@
                       </div>
                     </li> --}}
 
+                    <!--<li class="nav-item">
+                        <label class="nav-link" for="inputState">{{ __('Language') }}</label>
+                    </li>-->
+
+                    <li>
+                        <select id="inputState" class="nav-link changeLang bg-dark">
+                            <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
+                            <option value="sk" {{ session()->get('locale') == 'sk' ? 'selected' : '' }}>Slovak</option>
+                        </select>
+                    </li>
+
                     <li class="nav-item">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -49,6 +61,7 @@
                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </a>
+
                         </form>
                     </li>
 
@@ -56,8 +69,8 @@
                 @else
 
                     <li class="nav-item">
-                            <label class="text-white" for="inputState" style="display: inline!important;">{{ __('Language') }}</label>
-                            <select id="inputState" class="changeLang" style="display: inline!important;">
+                            <label class="nav-link" for="inputState" style="display: inline!important;">{{ __('Language') }}</label>
+                            <select id="inputState" class="nav-link changeLang bg-dark" style="display: inline!important;">
                                 <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
 
                                 <option value="sk" {{ session()->get('locale') == 'sk' ? 'selected' : '' }}>Slovak</option>
