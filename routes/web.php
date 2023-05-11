@@ -26,7 +26,7 @@ Route::get('/', function () {
 
 //Route::get('/', [LangController::class, 'registration'])->middleware(LanguageManager::class);
 
-Route::get('lang/home', [LangController::class, 'index'])->middleware(LanguageManager::class);
+Route::get('lang/home', [LangController::class, 'index'])->middleware('lang');
 
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 /*
@@ -35,11 +35,11 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 |--------------------------------------------------------------------------
 */
 Route::prefix('teacher')->group(function () {
-    Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard')->middleware('lang');
     Route::post('/upload', [ZipController::class, 'uploadFile'])->name('teacher.upload.zip');
-    Route::get('/edit-batch/{batch_id}/edit-task/{task_id}', [TeacherController::class, 'editTask'])->name('teacher.edit-task');
+    Route::get('/edit-batch/{batch_id}/edit-task/{task_id}', [TeacherController::class, 'editTask'])->name('teacher.edit-task')->middleware('lang');
     Route::put('/update-task/{id}', [TeacherController::class, 'updateTask'])->name('teacher.update-task');
-    Route::get('/edit-batch/{id}', [TeacherController::class, 'editBatch'])->name('teacher.edit-batch');
+    Route::get('/edit-batch/{id}', [TeacherController::class, 'editBatch'])->name('teacher.edit-batch')->middleware('lang');
     Route::put('/update-batch/{id}', [TeacherController::class, 'updateBatch'])->name('teacher.update-batch');
     Route::get('teacher/export-csv', [TeacherController::class, 'exportCsv'])->name('teacher.export-csv');
 })->middleware('auth');
@@ -49,9 +49,9 @@ Route::prefix('teacher')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('student')->group(function () {
-    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard')->middleware('lang');
     Route::post('/generate-task', [StudentController::class, 'generateTask'])->name('student.generate-task');
-    Route::get('/render-task/{id}', [StudentController::class, 'renderTask'])->name('student.render-task');
+    Route::get('/render-task/{id}', [StudentController::class, 'renderTask'])->name('student.render-task')->middleware('lang');
     Route::post('/submit-task/', [StudentController::class, 'submitTask'])->name('student.submit-task');
 })->middleware('auth');
 /*

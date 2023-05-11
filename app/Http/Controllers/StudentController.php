@@ -63,12 +63,13 @@ class StudentController extends Controller
     public function submitTask(Request $request)
     {
         $task = MathTask::find($request->input('task_id'));
+        $max_points = MathBatch::find($task->batch_id)->max_points;
         $regex = '/^\\s*\\\\begin\\{equation\\*\\}\\s*(.*)\\s*\\\\end\\{equation\\*\\}\\s*$/s';
         $replacement = '$1';
         $equation = preg_replace($regex, $replacement, $task->solution);
         $solution = rtrim($equation);
         $user_solution = $request->input('user-solution');
-        
+
         // Define the command to execute the Python script
         $command = 'python ' . base_path('app/bin/compare.py') . ' ' . escapeshellarg($user_solution) . ' ' . escapeshellarg($solution);
         //todo nainstalujte si python, pip install sympy a to asi staci i guess, keby nie skuste si to spustit v cmd ten script
@@ -80,9 +81,13 @@ class StudentController extends Controller
         // Check the return value to see if the command was successful
         if ($return_var == 0) {
             $result = trim($output[0]); // Get the result from the output
+            if ($result == 0) $result_points = $max_points;
+            else $result_points = 0;
             Auth::user()->priklady()->updateExistingPivot($task->id, [
                 'result' => filter_var($result, FILTER_VALIDATE_BOOLEAN), //cast to boolean
                 'user_solution' => $user_solution,
+                'submitted' => true,
+                'points' => $result_points
             ]);
         }
         return back();

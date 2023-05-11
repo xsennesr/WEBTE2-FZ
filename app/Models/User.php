@@ -46,4 +46,11 @@ class User extends Authenticatable
     public function priklady(){
         return $this->belongsToMany(MathTask::class,'user_math_task')->withPivot('user_id', 'math_task_id', 'user_solution', 'submitted', 'points', 'result');
     }
+
+    public function odovzdane_priklady(){
+        return $this->belongsToMany(MathTask::class,'user_math_task')
+            ->wherePivot('submitted', true)
+            ->withPivot('user_id', 'math_task_id', 'user_solution', 'submitted', 'points', 'result');
+    }
+
 }

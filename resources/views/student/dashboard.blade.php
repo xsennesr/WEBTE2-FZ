@@ -1,16 +1,19 @@
 @extends('layout.layout-default')
 @section('additional_head')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 @endsection
 @section('content')
 
     <div class="fs-2 mt-3 mb-5 rounded w-100 py-2 px-3" style="background-color: lightsteelblue">
-        Student dashboard
+        {{ __('student-dashb.title-main')  }}
     </div>
 
     <div class="bg-light p-4 rounded">
-        <label class="fs-4 text-decoration-underline mb-3">Dostupné sady príkladov</label>
+        <label class="fs-4 text-decoration-underline mb-3">
+            {{ __('student-dashb.title-batches')  }}
+        </label>
 
         <form action="{{ route('student.generate-task') }}" method="POST" class="mx-2">
             @csrf
@@ -23,7 +26,7 @@
                 </div>
             @endforeach
             <button type="submit" class="btn btn-light" style="background: lightsteelblue">
-                Generuj priklad
+                {{ __('student-dashb.gen-butt')  }}
             </button>
         </form>
     </div>
@@ -31,27 +34,43 @@
     @if (isset($tasks))
         <div class="my-4">
             <div class="bg-light p-4 mb-4 rounded table-responsive">
-                <label class="fs-4 text-decoration-underline mb-4">Príklady</label>
+                <label class="fs-4 text-decoration-underline mb-4">
+                    {{ __('student-dashb.title-tasks')  }}
+                </label>
                 <table id="priklady" class="display table table-striped table-light table-hover rounded">
                     <thead class="table-dark">
                     <tr>
-                        <th>Nazov prikladu</th>
-                        <th>Odovzdane</th>
-                        <th>Vysledok</th>
-                        <th>Ziskane body</th>
-                        <th>Akcia</th>
+                        <th>{{ __('student-dashb.tasks-name')  }}</th>
+                        <th class="text-center">{{ __('student-dashb.task-subm')  }}</th>
+                        <th class="text-center">{{ __('student-dashb.task-result')  }}</th>
+                        <th class="text-center">{{ __('student-dashb.task-points')  }}</th>
+                        <th class="text-center">{{ __('student-dashb.task-action')  }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($tasks as $priklad)
                         <tr>
                             <td>{{ $priklad->task_name }}</td>
-                            <td>{{ $priklad->pivot->submitted ? 'Ano' : "Nie" }}</td>
-                            <td>{{ $priklad->pivot->result ? 'Spravny' : ($priklad->result === false ? 'Nespravny' : 'Este ziadny') }}</td>
-
-                            <td>{{ $priklad->pivot->points}}</td>
-                            <td><a href="{{route('student.render-task', $priklad->id)}}" type="button"
-                                   class="btn btn-light btn-sm" style="background: lightsteelblue">Vyriešiť</a>
+                            <td class="text-center">
+                                @if ($priklad->pivot->submitted)
+                                    <i class="bi bi-check2 wf-bolder fs-5 text-light rounded bg-success pb-1 px-1"></i>
+                                @elseif(!$priklad->pivot->submitted)
+                                    <i class="bi bi-x wf-bolder fs-5 text-light rounded bg-danger pb-1 px-1"></i>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                {{ $priklad->pivot->result ? __('student-dashb.task-sol-corr') : ($priklad->result === false ? __('student-dashb.task-sol-incorr') : __('student-dashb.task-sol-not-subm')) }}
+                            </td>
+                            <td class="text-center">{{ $priklad->pivot->points}}</td>
+                            <td class="text-center"><a href="{{route('student.render-task', $priklad->id)}}" type="button"
+                                   class="btn btn-light btn-sm" style="background-color: lightsteelblue">
+                            @if ($priklad->pivot->submitted)
+                                        {{ __('student-dashb.task-solve-butt')  }}
+                            @else
+                                        {{ __('student-dashb.task-show-butt')  }}
+                            @endif
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
