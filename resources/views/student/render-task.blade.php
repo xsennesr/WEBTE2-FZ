@@ -42,6 +42,7 @@
                 </label>
                 <input type="hidden" name="user-solution" id="user-solution-hidden">
                 <math-field id="user-solution" name="user-solution" required class="w-100"></math-field>
+                <input type="hidden" name="task_id" value="{{ $task->id }}">
                 <div class="d-flex justify-content-end mt-5">
                     <button type="submit" class="btn btn-light text-dark px-4 ml-auto"
                             style="background: lightsteelblue">
