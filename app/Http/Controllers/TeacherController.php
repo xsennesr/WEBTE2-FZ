@@ -78,13 +78,19 @@ class TeacherController extends Controller
         $handle = fopen('php://temp', 'w');
         $bom = chr(0xEF) . chr(0xBB) . chr(0xBF);
         fwrite($handle, $bom);
-        fputcsv($handle, ['Meno', 'ID', 'Vygenerované', 'Odovzdané', 'Počet bodov'], ';');
+        fputcsv($handle, [
+                            __('teacher-dashb.student-table-th-name'),
+                            'ID',
+                            __('teacher-dashb.student-table-th-generated'),
+                            __('teacher-dashb.student-table-th-submitted'),
+                            __('student-dashb.task-points')],
+                    ';');
         foreach ($users as $user) {
             fputcsv($handle, [
                 $user->name,
                 $user->id,
-                0,
-                0,
+                $user->priklady->count(),
+                $user->odovzdane_priklady->count(),
                 $user->priklady->sum('pivot.points')
             ], ';');
         }

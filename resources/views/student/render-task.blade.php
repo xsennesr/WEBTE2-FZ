@@ -48,7 +48,7 @@
                     <math-field id="user-solution" name="user-solution" required class="w-100"></math-field>
                     <input type="hidden" name="task_id" value="{{ $task->id }}">
                     <div class="d-flex justify-content-end mt-5">
-                        <button type="submit" class="btn btn-light text-dark px-4 ml-auto" style="background: lightsteelblue">
+                        <button type="submit" class="btn btn-light btn-lg px-4 ml-auto" style="background-color: rgba(63,137,132,0.56)">
                             {{ __('student-dashb.subm-butt')  }}
                         </button>
                     </div>

@@ -24,8 +24,6 @@ Route::get('/', function () {
     return view('index');
 })->name('index')->middleware('auth');
 
-//Route::get('/', [LangController::class, 'registration'])->middleware(LanguageManager::class);
-
 Route::get('lang/home', [LangController::class, 'index'])->middleware('lang');
 
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
@@ -41,7 +39,7 @@ Route::prefix('teacher')->group(function () {
     Route::put('/update-task/{id}', [TeacherController::class, 'updateTask'])->name('teacher.update-task');
     Route::get('/edit-batch/{id}', [TeacherController::class, 'editBatch'])->name('teacher.edit-batch')->middleware('lang');
     Route::put('/update-batch/{id}', [TeacherController::class, 'updateBatch'])->name('teacher.update-batch');
-    Route::get('teacher/export-csv', [TeacherController::class, 'exportCsv'])->name('teacher.export-csv');
+    Route::get('teacher/export-csv', [TeacherController::class, 'exportCsv'])->name('teacher.export-csv')->middleware('lang');
 })->middleware('auth');
 /*
 |--------------------------------------------------------------------------

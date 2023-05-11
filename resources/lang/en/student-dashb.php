@@ -18,7 +18,7 @@ return [
     'task-sol-incorr' => 'Incorrect',
     'task-sol-not-subm' => 'Not submitted',
     'task-solve-butt' => 'Solve',
-    'task-show-butt' => 'Show',
+    'task-show-butt' => 'Open',
 
     /* Render task */
     'title-task' => 'Task to solve',

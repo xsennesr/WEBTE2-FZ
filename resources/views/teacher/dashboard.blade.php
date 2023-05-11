@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div class="fs-2 mt-3 mb-5 rounded w-100 py-2 px-3" style="background-color: lightsteelblue">
+    <div class="fs-2 mt-3 mb-5 w-100 rounded py-2 px-3" style="background-color: rgba(176,196,222,0.7); border-left: solid black 5px">
         {{ __('teacher-dashb.title-main')  }}
     </div>
 
@@ -17,9 +17,13 @@
                 class="d-flex align-items-start flex-column mx-2">
             @csrf
             <input type="file" name="my-file" id="" class="form-control form-control-sm mb-3 w-50">
-            <button type="submit" name="submit" id="" class="btn btn-light" style="background: lightsteelblue">
-                {{ __('teacher-dashb.upload-butt')  }}
-            </button>
+
+            <div class="d-flex justify-content-end mt-2 w-50">
+                <button type="submit" name="submit" id="" class="btn btn-light mr-auto" style="background-color: rgba(63,137,132,0.56)">
+                    {{ __('teacher-dashb.upload-butt')  }}
+                </button>
+            </div>
+
         </form>
     </div>
 
@@ -54,7 +58,7 @@
                             <td class="text-center">{{ $sada->publishing_at }}</td>
                             <td class="text-center">{{ $sada->closing_at }}</td>
                             <td class="text-center"><a href="{{ route('teacher.edit-batch', ['id' => $sada->id]) }}"
-                                   type="button" class="btn btn-light" style="background: lightsteelblue">
+                                   type="button" class="btn btn-light" style="background-color: #eedb8c">
                                     <span class="text-center">{{ __('teacher-dashb.table-edit-butt')  }}</span>
                                     <i class="bi bi-pencil-square align-text-bottom"></i>
                                 </a>

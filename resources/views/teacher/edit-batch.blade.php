@@ -3,13 +3,14 @@
 @section('additional_head')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 @endsection
 
 @section('content')
 
     @if (isset($sada))
 
-        <div class="fs-5 mt-3 mb-2 rounded py-2 px-3" style="background-color: lightsteelblue; width: fit-content">
+        <div class="fs-5 mt-3 mb-2 rounded py-2 px-3" style="background-color: rgba(176,196,222,0.7); border-left: solid black 5px; width: fit-content">
             {{ __('teacher-dashb.edit-batch-title')  }}
         </div>
 
@@ -54,7 +55,7 @@
                     </label>
                 </div>
                 <div class="d-flex justify-content-end mt-2">
-                    <button type="submit" class="btn btn-light ml-auto" style="background: lightsteelblue">
+                    <button type="submit" class="btn btn-light ml-auto" style="background-color: rgba(63,137,132,0.56)">
                         {{ __('teacher-dashb.edit-batch-submit-butt')  }}
                     </button>
                 </div>
@@ -64,7 +65,7 @@
 
         @if (isset($priklady))
 
-            <div class="fs-5 mt-5 mb-2 rounded py-2 px-3" style="background-color: lightsteelblue; width: fit-content">
+            <div class="fs-5 mt-5 mb-2 rounded py-2 px-3" style="background-color: rgba(176,196,222,0.7); border-left: solid black 5px; width: fit-content">
                 {{ __('teacher-dashb.edit-task-title')  }}
             </div>
 
@@ -82,8 +83,9 @@
                                 <td class="text-center">{{ $priklad->task_name }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('teacher.edit-task', ['batch_id' => $sada->id, 'task_id' => $priklad->id]) }}"
-                                       type="button" class="btn btn-light btn-sm" style="background-color: lightsteelblue">
+                                       type="button" class="btn btn-light" style="background-color: #eedb8c">
                                         {{ __('teacher-dashb.table-edit-butt')  }}
+                                        <i class="bi bi-pencil-square align-text-bottom"></i>
                                     </a>
                                 </td>
                             </tr>

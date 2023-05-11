@@ -6,7 +6,7 @@
 @endsection
 @section('content')
 
-    <div class="fs-2 mt-3 mb-5 rounded w-100 py-2 px-3" style="background-color: lightsteelblue">
+    <div class="fs-2 mt-3 mb-5 w-100 rounded py-2 px-3" style="background-color: rgba(176,196,222,0.7); border-left: solid black 5px">
         {{ __('student-dashb.title-main')  }}
     </div>
 
@@ -25,7 +25,7 @@
                     <input type="hidden" name="batch-id" id="batch-id" value="{{ $batch->id }}">
                 </div>
             @endforeach
-            <button type="submit" class="btn btn-light" style="background: lightsteelblue">
+            <button type="submit" class="btn btn-light mt-4" style="background: lightsteelblue">
                 {{ __('student-dashb.gen-butt')  }}
             </button>
         </form>
@@ -63,7 +63,7 @@
                             </td>
                             <td class="text-center">{{ $priklad->pivot->points}}</td>
                             <td class="text-center"><a href="{{route('student.render-task', $priklad->id)}}" type="button"
-                                   class="btn btn-light btn-sm" style="background-color: lightsteelblue">
+                                   class="btn btn-light" style="background-color: #eedb8c">
                             @if ($priklad->pivot->submitted)
                                         {{ __('student-dashb.task-solve-butt')  }}
                             @else
