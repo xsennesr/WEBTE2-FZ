@@ -12,7 +12,7 @@
     </div>
 
     <div class="bg-light p-4 rounded">
-        <label class="fs-4 text-decoration-underline mb-3">Upload new files</label>
+        <label class="fs-4 text-decoration-underline mb-3">Upload new tasks</label>
         <form action="{{ route('teacher.upload.zip') }}" method="POST" enctype="multipart/form-data"
                 class="d-flex align-items-start flex-column mx-2">
             @csrf

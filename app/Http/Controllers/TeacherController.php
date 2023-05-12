@@ -14,7 +14,6 @@ class TeacherController extends Controller
     {
         $sady = MathBatch::all();
         $users = User::where('ucitel', false)->get();
-        //$users = User::all();
         return view('teacher.dashboard', ['sady'=> $sady, 'users'=> $users]);
     }
 
