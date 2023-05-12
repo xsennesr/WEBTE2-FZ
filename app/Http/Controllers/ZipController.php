@@ -25,9 +25,9 @@ class ZipController extends Controller
 
         Storage::putFileAs('public', $file, $name);
         if ($this->parseAndUpload('storage/' . $name)) {
-            return back()->with('success', 'Priklady uspesne ulozene!');
+            return back()->with('success', __('messages.mess1-file'));
         } else {
-            return back()->with('error', 'Nastala chyba');
+            return back()->with('error', __('messages.err1-file'));
         }
     }
     private function parseAndUpload($name)

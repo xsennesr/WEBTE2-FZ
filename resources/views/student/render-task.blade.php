@@ -22,7 +22,7 @@
 @section('content')
 
     <div class="fs-3 mt-3 mb-3 text-decoration-underline">
-        Príklad na vyriešenie
+        {{ __('student-dashb.title-task')  }}
     </div>
 
     <div class="container-fluid bg-light p-4 rounded d-flex justify-content-center flex-column my-3">
@@ -33,28 +33,27 @@
             @endif
         </div>
 
-        <form action="{{ route('student.submit-task') }}" method="POST" class="mb-0">
-            @csrf
-            <div class="d-flex justify-content-center flex-column form-group m-auto w-100 p-3">
-                <label for="solution"
-                       class="fs-5 fw-normal text-decoration-underline mx-1 mb-3">
-                    Solution:
-                </label>
-                <input type="hidden" name="user-solution" id="user-solution-hidden">
-                <math-field id="user-solution" name="user-solution" required class="w-100"></math-field>
-                <div class="d-flex justify-content-end mt-5">
-                    <button type="submit" class="btn btn-light text-dark px-4 ml-auto"
-                            style="background: lightsteelblue">
-                        Submit
-                    </button>
-                </div>
-            </div>
-        </form>
-
-        <!-- TODO:: -->
         @if ($priklad->user_solution)
-            <p class="fs-5 fw-normal text-decoration-underline mx-1 mb-3">Your solution:</p>
+            <p class="fs-5 fw-normal text-decoration-underline mx-1 mb-3">{{ __('student-dashb.title-sol')  }}</p>
             <p>{{ $priklad->user_solution }}</p>
+        @else
+            <form action="{{ route('student.submit-task') }}" method="POST" class="mb-0">
+                @csrf
+                <div class="d-flex justify-content-center flex-column form-group m-auto w-100 p-3">
+                    <label for="solution"
+                           class="fs-5 fw-normal text-decoration-underline mx-1 mb-3">
+                        {{ __('student-dashb.title-enter-sol')  }}
+                    </label>
+                    <input type="hidden" name="user-solution" id="user-solution-hidden">
+                    <math-field id="user-solution" name="user-solution" required class="w-100"></math-field>
+                    <input type="hidden" name="task_id" value="{{ $task->id }}">
+                    <div class="d-flex justify-content-end mt-5">
+                        <button type="submit" class="btn btn-light btn-lg px-4 ml-auto" style="background-color: rgba(63,137,132,0.56)">
+                            {{ __('student-dashb.subm-butt')  }}
+                        </button>
+                    </div>
+                </div>
+            </form>
         @endif
     </div>
 

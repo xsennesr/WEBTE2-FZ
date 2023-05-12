@@ -17,6 +17,14 @@ return [
     'sign-in' => 'PRIHLÁSENIE',
     'button-login' => 'Prihlásiť sa',
     'muted-text-login' => 'Ešte nemáš účet?',
-    'butt-redirect' => 'Registrovať sa'
+    'butt-redirect' => 'Registrovať sa',
 
+    /* Nav-bar */
+    'home' => 'Domov',
+    'students' => 'Študenti',
+    'info' => 'Návod',
+    'lang-sk' => 'Slovenčina',
+    'lang-en' => 'Angličtina',
+    'log-out' => 'Odhlásiť sa',
+    'lang-title' => 'Jazyk'
 ];

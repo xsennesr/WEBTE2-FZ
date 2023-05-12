@@ -17,6 +17,22 @@ class TeacherController extends Controller
         return view('teacher.dashboard', ['sady'=> $sady, 'users'=> $users]);
     }
 
+    public function introduction(){
+        return view('introduction-teacher.dashboard');
+    }
+
+    public function studentsTable()
+    {
+        $users = User::where('ucitel', false)->get();
+        return view('teacher.students-table', ['users' => $users]);
+    }
+
+    public function showStudent($student_id)
+    {
+        $student = User::where('id', $student_id)->first();
+        return view('teacher.show-student', ['student' => $student]);
+    }
+
     public function editTask($batch_id,$task_id)
     {
         $priklad = MathTask::where('id', $task_id)->first();
@@ -41,9 +57,9 @@ class TeacherController extends Controller
             'closing_at' => $request->input('closing_at'),
         ]);
         if($updated) {
-            return back()->with('success', 'Sada uspesne zmenena!');
+            return back()->with('success', __('messages.mess1-batch'));
        } else {
-           return back()->with('error', 'Sadu sa nepodarilo zmenit');
+           return back()->with('error', __('messages.err3-batch'));
        }
     }
 
@@ -58,9 +74,9 @@ class TeacherController extends Controller
             'solution' => $request->input('solution'),
         ]);
         if($updated) {
-             return back()->with('success', 'Priklad uspesne zmeneny!');
+             return back()->with('success', __('messages.mess1-task'));
         } else {
-            return back()->with('error', 'Priklad sa nepodarilo zmenit');
+            return back()->with('error', __('messages.err1-task'));
         }
     }
 
@@ -78,13 +94,19 @@ class TeacherController extends Controller
         $handle = fopen('php://temp', 'w');
         $bom = chr(0xEF) . chr(0xBB) . chr(0xBF);
         fwrite($handle, $bom);
-        fputcsv($handle, ['Meno', 'ID', 'Vygenerované', 'Odovzdané', 'Počet bodov'], ';');
+        fputcsv($handle, [
+                            __('teacher-dashb.student-table-th-name'),
+                            'ID',
+                            __('teacher-dashb.student-table-th-generated'),
+                            __('teacher-dashb.student-table-th-submitted'),
+                            __('student-dashb.task-points')],
+                    ';');
         foreach ($users as $user) {
             fputcsv($handle, [
                 $user->name,
                 $user->id,
-                0,
-                0,
+                $user->priklady->count(),
+                $user->odovzdane_priklady->count(),
                 $user->priklady->sum('pivot.points')
             ], ';');
         }

@@ -22,8 +22,8 @@
     </script> --}}
 
 
-    <div class="fs-5 mt-3 mb-2 rounded py-2 px-3" style="background-color: lightsteelblue; width: fit-content">
-        Edit task
+    <div class="fs-4 mt-3 mb-2 rounded py-2 px-3" style="background-color: rgba(176,196,222,0.7); border-left: solid black 5px; width: fit-content">
+        {{ __('teacher-dashb.edit-task-title')  }}
     </div>
 
     <div class="container-fluid bg-light rounded my-3 p-4 d-flex justify-content-center">
@@ -31,37 +31,45 @@
             @csrf
             @method('PUT')
             <div class="mb-4">
-                <label for="task_name" class="form-label text-decoration-underline">Task Name</label>
+                <label for="task_name" class="fs-5 fw-bold form-label text-decoration-underline">
+                    {{ __('teacher-dashb.edit-task-title-th-name')  }}
+                </label>
                 <input type="text" class="form-control form-control-sm" id="task_name"
                        name="task_name" value="{{ $priklad->task_name }}">
             </div>
-            <div class="mb-4">
-                <label for="task" class="form-label text-decoration-underline">Task</label>
+            <div class="mb-5">
+                <label for="task" class="fs-5 fw-bold form-label text-decoration-underline">
+                    {{ __('teacher-dashb.edit-task-task')  }}
+                </label>
                 <textarea class="form-control form-control-sm" id="task" name="task" rows="6">{{ $priklad->task }}</textarea>
             </div>
             <div id="task_output" class="mb-5">
                 {{ $priklad->task }}
             </div>
             <div id="task_buffer" class="hidden"></div>
-            <div class="my-4">
-                <label for="image" class="form-label text-decoration-underline">Image</label>
+            <div class="my-5">
+                <label for="image" class="fs-5 fw-bold form-label text-decoration-underline">
+                    {{ __('teacher-dashb.edit-task-image')  }}
+                </label>
                 <input type="file" class="form-control form-control-sm mb-4" id="image" name="image"
                        accept=".jpg, .png, .jpeg, .webp, .gif">
                 <input type="hidden" name="image-base64" id="image-base64" value="{{ $priklad->image }}">
                 <img id="image-preview" class="w-75 h-auto mx-auto d-block img-fluid" src="{{ $priklad->image }}" alt="">
             </div>
-            <div class="mb-4">
-                <label for="solution" class="form-label text-decoration-underline">Solution</label>
+            <div class="mb-5">
+                <label for="solution" class="fs-5 fw-bold form-label text-decoration-underline">
+                    {{ __('teacher-dashb.edit-task-solution')  }}
+                </label>
                 <textarea class="form-control form-control-sm" id="solution" name="solution" rows="6">{{ $priklad->solution }}</textarea>
                 <div id="solution-tex"></div>
             </div>
-            <div id="solution_output" class="mb-4">
+            <div id="solution_output" class="mb-5">
                 {{ $priklad->solution }}
             </div>
             <div id="solution_buffer" class="hidden"></div>
             <div class="d-flex justify-content-end mt-2">
-                <button type="submit" class="btn btn-light ml-auto" style="background: lightsteelblue">
-                    Submit
+                <button type="submit" class="btn btn-light btn-lg ml-auto mt-4" style="background: rgba(63,137,132,0.56)">
+                    {{ __('teacher-dashb.edit-batch-submit-butt')  }}
                 </button>
             </div>
         </form>

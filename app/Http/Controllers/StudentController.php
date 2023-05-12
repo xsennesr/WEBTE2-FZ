@@ -38,16 +38,18 @@ class StudentController extends Controller
         $availableBatches = array_merge($query1->toArray(), $query2->toArray(), $query3->toArray(), $query4->toArray());
         return view('student.dashboard', ['batches' => $availableBatches, 'tasks' => Auth::user()->priklady]);
     }
+
+    public function introduction(){
+        return view('introduction-student.dashboard');
+    }
+
     public function generateTask(Request $request)
     {
-        //Vyzera ze funguje ale testoval som to tak 5minut iba
         $user = Auth::user();
-        $userId = $user->id;;
-        $user2 = User::find($userId);
-
+        $userId = $user->id;
         $selectedBatches = $request->input('selected-batch', []);
         if (!$selectedBatches) {
-            return back()->with('error', 'Vyber aspon jednu sadu');
+            return back()->with('error', __('messages.err1-batch') );
         }
         $randomTask = MathTask::whereIn('batch_id', $selectedBatches)
             ->whereNotIn('id', function ($query) use ($userId) {
@@ -58,9 +60,9 @@ class StudentController extends Controller
             ->inRandomOrder()
             ->first();
         if (!$randomTask) {
-            return back()->with('error', 'Uz si si vygeneroval vsetky priklady z tejto sady!');
+            return back()->with('error', __('messages.err2-batch'));
         }
-        $user2->priklady()->attach($randomTask->id);
+        $user->priklady()->attach($randomTask->id);
         return back();
     }
     public function renderTask($id)
@@ -71,7 +73,34 @@ class StudentController extends Controller
     }
     public function submitTask(Request $request)
     {
-        dd($request->input('user-solution'));
+        $task = MathTask::find($request->input('task_id'));
+        $max_points = MathBatch::find($task->batch_id)->max_points;
+        $regex = '/^\\s*\\\\begin\\{equation\\*\\}\\s*(.*)\\s*\\\\end\\{equation\\*\\}\\s*$/s';
+        $replacement = '$1';
+        $equation = preg_replace($regex, $replacement, $task->solution);
+        $solution = rtrim($equation);
+        $user_solution = $request->input('user-solution');
+
+        // Define the command to execute the Python script
+        $command = 'python ' . base_path('app/bin/compare.py') . ' ' . escapeshellarg($user_solution) . ' ' . escapeshellarg($solution);
+        //todo nainstalujte si python, pip install sympy a to asi staci i guess, keby nie skuste si to spustit v cmd ten script
+        // Execute the command and capture the output
+        $output = [];
+        $return_var = -1;
+        exec($command, $output, $return_var);
+
+        // Check the return value to see if the command was successful
+        if ($return_var == 0) {
+            $result = trim($output[0]); // Get the result from the output
+            if ($result == 0) $result_points = $max_points;
+            else $result_points = 0;
+            Auth::user()->priklady()->updateExistingPivot($task->id, [
+                'result' => filter_var($result, FILTER_VALIDATE_BOOLEAN), //cast to boolean
+                'user_solution' => $user_solution,
+                'submitted' => true,
+                'points' => $result_points
+            ]);
+        }
         return back();
     }
 }

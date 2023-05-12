@@ -7,17 +7,23 @@
 @endsection
 
 @section('content')
-    <div class="fs-2 mt-3 mb-5 rounded w-100 py-2 px-3" style="background-color: lightsteelblue">
-        Teacher dashboard
+    <div class="fs-2 mt-3 mb-5 w-100 rounded py-2 px-3" style="background-color: rgba(176,196,222,0.7); border-left: solid black 5px">
+        {{ __('teacher-dashb.title-main')  }}
     </div>
 
     <div class="bg-light p-4 rounded">
-        <label class="fs-4 text-decoration-underline mb-3">Upload new tasks</label>
+        <label class="fs-4 text-decoration-underline mb-3">{{ __('teacher-dashb.title-upload')  }}</label>
         <form action="{{ route('teacher.upload.zip') }}" method="POST" enctype="multipart/form-data"
                 class="d-flex align-items-start flex-column mx-2">
             @csrf
             <input type="file" name="my-file" id="" class="form-control form-control-sm mb-3 w-50">
-            <input type="submit" name="submit" id="" class="btn btn-light" style="background: lightsteelblue">
+
+            <div class="d-flex justify-content-end mt-2 w-50">
+                <button type="submit" name="submit" id="" class="btn btn-light mr-auto" style="background-color: rgba(63,137,132,0.56)">
+                    {{ __('teacher-dashb.upload-butt')  }}
+                </button>
+            </div>
+
         </form>
     </div>
 
@@ -25,29 +31,35 @@
     @if (isset($sady))
         <div class="my-4">
             <div class="bg-light p-4 mb-4 rounded table-responsive">
-                <label class="fs-4 text-decoration-underline mb-4">Uploaded files</label>
+                <label class="fs-4 text-decoration-underline mb-4">{{ __('teacher-dashb.title-uploads')  }}</label>
                 <table id="sady" class="display table table-striped table-light table-hover rounded">
                     <thead class="table-dark">
                     <tr>
-                        <th>Sada</th>
-                        <th>Body</th>
-                        <th>Dostupny</th>
-                        <th>Dostupne od</th>
-                        <th>Dostupne do</th>
-                        <th>Uprav</th>
+                        <th>{{ __('teacher-dashb.th-batch')  }}</th>
+                        <th class="text-center">{{ __('teacher-dashb.th-point')  }}</th>
+                        <th class="text-center">{{ __('teacher-dashb.th-avail')  }}</th>
+                        <th class="text-center">{{ __('teacher-dashb.th-avail-from')  }}</th>
+                        <th class="text-center">{{ __('teacher-dashb.th-avail-to')  }}</th>
+                        <th class="text-center">{{ __('teacher-dashb.th-action')  }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($sady as $sada)
                         <tr>
                             <td>{{ $sada->name }}</td>
-                            <td>{{ $sada->max_points ?? 'Undefined'}}</td>
-                            <td>{{ $sada->available ? 'Yes' : 'No' }}</td>
-                            <td>{{ $sada->publishing_at }}</td>
-                            <td>{{ $sada->closing_at }}</td>
-                            <td><a href="{{ route('teacher.edit-batch', ['id' => $sada->id]) }}"
-                                   type="button" class="btn btn-light btn-sm" style="background: lightsteelblue">
-                                    <span class="text-center">Edit</span>
+                            <td class="text-center">{{ $sada->max_points ??  __('teacher-dashb.th-points-unset') }}</td>
+                            <td class="text-center">
+                                @if ($sada->available)
+                                    <i class="bi bi-check2 wf-bolder fs-5 text-light rounded bg-success pb-1 px-1"></i>
+                                @else
+                                    <i class="bi bi-x wf-bolder fs-5 text-light rounded bg-danger pb-1 px-1"></i>
+                                @endif
+                            </td>
+                            <td class="text-center">{{ $sada->publishing_at }}</td>
+                            <td class="text-center">{{ $sada->closing_at }}</td>
+                            <td class="text-center"><a href="{{ route('teacher.edit-batch', ['id' => $sada->id]) }}"
+                                   type="button" class="btn btn-light" style="background-color: #eedb8c">
+                                    <span class="text-center">{{ __('teacher-dashb.table-edit-butt')  }}</span>
                                     <i class="bi bi-pencil-square align-text-bottom"></i>
                                 </a>
                             </td>
@@ -56,48 +68,18 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="bg-light p-4 mb-4 rounded table-responsive">
-                <label class="fs-4 text-decoration-underline mb-4">Students</label>
-                <table id="students" class="display table table-striped table-light table-hover rounded">
-                    <thead class="table-dark">
-                    <tr>
-                        <th>{{ __('messages.name')  }}</th>
-                        <th>ID</th>
-                        <th>Vygenerované</th>
-                        <th>Odovzdané</th>
-                        <th>Počet bodov</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->id }}</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>{{ $user->priklady->sum('pivot.points') }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <a href="{{ route('teacher.export-csv') }}" class="btn btn-light"
-               style="background: lightsteelblue">
-                Download CSV
-            </a>
         </div>
 
         <script>
             let table = new DataTable('#sady');
-            let table2 = new DataTable('#students');
         </script>
 
         <script type="text/javascript">
-            var url = "{{ route('changeLang') }}";
+            document.getElementById('home-t').style.color = 'whitesmoke';
+
+            var urll = "{{ route('changeLang') }}";
             $(".changeLang").change(function(){
-                window.location.href = url + "?lang="+ $(this).val();
+                window.location.href = urll + "?lang="+ $(this).val();
             });
         </script>
     @endif
