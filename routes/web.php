@@ -44,6 +44,7 @@ Route::prefix('teacher')->group(function () {
     Route::get('/edit-batch/{id}', [TeacherController::class, 'editBatch'])->name('teacher.edit-batch')->middleware('lang');
     Route::put('/update-batch/{id}', [TeacherController::class, 'updateBatch'])->name('teacher.update-batch')->middleware('lang');
     Route::get('teacher/export-csv', [TeacherController::class, 'exportCsv'])->name('teacher.export-csv')->middleware('lang');
+    Route::get('/generatePDF', [TeacherController::class, 'generatePDF'])->middleware('lang');
 })->middleware('auth');
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,7 @@ Route::prefix('student')->group(function () {
     Route::post('/generate-task', [StudentController::class, 'generateTask'])->name('student.generate-task')->middleware('lang');
     Route::get('/render-task/{id}', [StudentController::class, 'renderTask'])->name('student.render-task')->middleware('lang');
     Route::post('/submit-task/', [StudentController::class, 'submitTask'])->name('student.submit-task');
+    Route::get('/generatePDF', [StudentController::class, 'generatePDF'])->middleware('lang');
 })->middleware('auth');
 /*
 |--------------------------------------------------------------------------

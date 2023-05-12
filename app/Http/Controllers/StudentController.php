@@ -7,6 +7,7 @@ use App\Models\MathTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use PDF;
 
 class StudentController extends Controller
 {
@@ -102,5 +103,14 @@ class StudentController extends Controller
             ]);
         }
         return back();
+    }
+
+    public function generatePDF()
+    {
+        $data = []; 
+
+        $pdf = PDF::loadView('introduction-student.studentContent', $data); 
+
+        return $pdf->download('StudentIntroduction.pdf');
     }
 }

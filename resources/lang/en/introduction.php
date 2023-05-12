@@ -28,4 +28,6 @@ return[
     't-eighth' => 'In the "Edit Example" section, click "Edit" next to the example you want to edit',
     't-nineth' => 'On the next subpage, you can edit the name of the example, input, image and result',
     't-tenth' => 'After clicking "Save", the changes you made to the given example will be saved',
+
+    'pdf-btn' => 'Download pdf file'
 ];

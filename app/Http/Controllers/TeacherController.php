@@ -7,6 +7,7 @@ use App\Models\MathTask;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use PDF;
 
 class TeacherController extends Controller
 {
@@ -115,5 +116,14 @@ class TeacherController extends Controller
         fclose($handle);
         $response = Response::make($csvContent, 200, $headers);
         return $response;
+    }
+
+    public function generatePDF()
+    {
+        $data = []; 
+
+        $pdf = PDF::loadView('introduction-teacher.teacherContent', $data); 
+
+        return $pdf->download('TeacherIntroduction.pdf');
     }
 }
