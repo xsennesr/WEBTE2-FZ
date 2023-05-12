@@ -10,26 +10,35 @@
         {{ __('student-dashb.title-main')  }}
     </div>
 
-    <div class="bg-light p-4 rounded">
-        <label class="fs-4 text-decoration-underline mb-3">
-            {{ __('student-dashb.title-batches')  }}
-        </label>
+    @if ($batches)
+        <div class="bg-light p-4 rounded">
+            <label class="fs-4 text-decoration-underline mb-3">
+                {{ __('student-dashb.title-batches')  }}
+            </label>
 
-        <form action="{{ route('student.generate-task') }}" method="POST" class="mx-2">
-            @csrf
-            @foreach ($batches as $batch)
-                <div class="form-group mb-3">
-                    <input type="checkbox" class="form-check-input" id="selected-batch" name="selected-batch[]"
-                           value="{{ $batch['id'] }}">
-                    <label for="selected-batch" class="mx-2">{{ $batch['name'] }}</label>
-                    <input type="hidden" name="batch-id" id="batch-id" value="{{ $batch['id'] }}">
-                </div>
-            @endforeach
-            <button type="submit" class="btn btn-light mt-4" style="background: lightsteelblue">
-                {{ __('student-dashb.gen-butt')  }}
-            </button>
-        </form>
-    </div>
+            <form action="{{ route('student.generate-task') }}" method="POST" class="mx-2">
+                @csrf
+                @foreach ($batches as $batch)
+                    <div class="form-group mb-3">
+                        <input type="checkbox" class="form-check-input" id="selected-batch" name="selected-batch[]"
+                               value="{{ $batch['id'] }}">
+                        <label for="selected-batch" class="mx-2">{{ $batch['name'] }}</label>
+                        <input type="hidden" name="batch-id" id="batch-id" value="{{ $batch['id'] }}">
+                    </div>
+                @endforeach
+                <button type="submit" class="btn btn-light mt-4" style="background: lightsteelblue">
+                    {{ __('student-dashb.gen-butt')  }}
+                </button>
+            </form>
+        </div>
+    @else
+        <div class="bg-light p-4 rounded">
+            <label class="fs-4 text-secondary text-decoration-underline mb-3">
+                {{ __('student-dashb.title-no-batches') }}
+            </label>
+        </div>
+    @endif
+
 
     @if (isset($tasks))
         <div class="my-4">
