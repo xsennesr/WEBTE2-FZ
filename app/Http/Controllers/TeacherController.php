@@ -23,6 +23,12 @@ class TeacherController extends Controller
         return view('teacher.students-table', ['users' => $users]);
     }
 
+    public function showStudent($student_id)
+    {
+        $student = User::where('id', $student_id)->first();
+        return view('teacher.show-student', ['student' => $student]);
+    }
+
     public function editTask($batch_id,$task_id)
     {
         $priklad = MathTask::where('id', $task_id)->first();

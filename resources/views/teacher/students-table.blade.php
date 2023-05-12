@@ -27,7 +27,10 @@
                 <tbody>
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{ $user->name }}</td>
+                        <td><a href="{{route('teacher.show-student', $user->id)}}" class="text-dark">
+                                {{ $user->name }}
+                            </a>
+                        </td>
                         <td class="text-center">{{ $user->id }}</td>
                         <td class="text-center">{{ $user->priklady->count() }}</td>
                         <td class="text-center">{{ $user->odovzdane_priklady->count() }}</td>

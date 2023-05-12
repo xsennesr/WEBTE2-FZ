@@ -52,5 +52,4 @@ class User extends Authenticatable
             ->wherePivot('submitted', true)
             ->withPivot('user_id', 'math_task_id', 'user_solution', 'submitted', 'points', 'result');
     }
-
 }

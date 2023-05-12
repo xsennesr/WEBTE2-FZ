@@ -37,5 +37,5 @@ return [
     'edit-task-title-th-name' => 'Názov príkladu',
     'edit-task-task' => 'Príklad',
     'edit-task-image' => 'Obrázok',
-    'edit-task-solution' => 'Výsledok',
+    'edit-task-solution' => 'Riešenie',
 ];

@@ -8,6 +8,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Middleware\LanguageManager;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 Route::prefix('teacher')->group(function () {
     Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard')->middleware('lang');
     Route::get('/students', [TeacherController::class, 'studentsTable'])->name('teacher.studentsTable')->middleware('lang');
+    Route::get('/student/{id}', [TeacherController::class, 'showStudent'])->name('teacher.show-student')->middleware('lang');
     Route::post('/upload', [ZipController::class, 'uploadFile'])->name('teacher.upload.zip')->middleware('lang');
     Route::get('/edit-batch/{batch_id}/edit-task/{task_id}', [TeacherController::class, 'editTask'])->name('teacher.edit-task')->middleware('lang');
     Route::put('/update-task/{id}', [TeacherController::class, 'updateTask'])->name('teacher.update-task')->middleware('lang');
