@@ -38,12 +38,21 @@
                     </li>
                     @endif
 
-
+                    @if (!Auth::user()->ucitel)
                     <li class="nav-item active">
-                        <a id="info" class="nav-link" href="{{ route('index') }}">
+                        <a id="info" class="nav-link" href="{{ route('introduction-student.dashboard') }}">
                             {{ __('login-page.info')  }}
                         </a>
                     </li>
+                    @endif
+
+                    @if (Auth::user()->ucitel)
+                    <li class="nav-item active">
+                        <a id="info" class="nav-link" href="{{ route('introduction-teacher.dashboard') }}">
+                            {{ __('login-page.info')  }}
+                        </a>
+                    </li>
+                    @endif
 
                     <li>
                         <select id="inputState" class="nav-link changeLang bg-dark">

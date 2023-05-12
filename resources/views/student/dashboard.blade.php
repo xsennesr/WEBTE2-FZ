@@ -20,9 +20,9 @@
             @foreach ($batches as $batch)
                 <div class="form-group mb-3">
                     <input type="checkbox" class="form-check-input" id="selected-batch" name="selected-batch[]"
-                        value="{{ $batch->id }}">
-                    <label for="selected-batch" class="mx-2">{{ $batch->name }}</label>
-                    <input type="hidden" name="batch-id" id="batch-id" value="{{ $batch->id }}">
+                        value="{{ $batch['id'] }}">
+                    <label for="selected-batch" class="mx-2">{{ $batch['name'] }}</label>
+                    <input type="hidden" name="batch-id" id="batch-id" value="{{ $batch['id'] }}">
                 </div>
             @endforeach
             <button type="submit" class="btn btn-light mt-4" style="background: lightsteelblue">

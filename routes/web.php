@@ -35,6 +35,7 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 */
 Route::prefix('teacher')->group(function () {
     Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard')->middleware('lang');
+    Route::get('/introduction', [TeacherController::class, 'introduction'])->name('introduction-teacher.dashboard')->middleware('lang');
     Route::get('/students', [TeacherController::class, 'studentsTable'])->name('teacher.studentsTable')->middleware('lang');
     Route::get('/student/{id}', [TeacherController::class, 'showStudent'])->name('teacher.show-student')->middleware('lang');
     Route::post('/upload', [ZipController::class, 'uploadFile'])->name('teacher.upload.zip')->middleware('lang');
@@ -51,6 +52,7 @@ Route::prefix('teacher')->group(function () {
 */
 Route::prefix('student')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard')->middleware('lang');
+    Route::get('/introduction', [StudentController::class, 'introduction'])->name('introduction-student.dashboard')->middleware('lang');
     Route::post('/generate-task', [StudentController::class, 'generateTask'])->name('student.generate-task')->middleware('lang');
     Route::get('/render-task/{id}', [StudentController::class, 'renderTask'])->name('student.render-task')->middleware('lang');
     Route::post('/submit-task/', [StudentController::class, 'submitTask'])->name('student.submit-task');

@@ -17,6 +17,10 @@ class TeacherController extends Controller
         return view('teacher.dashboard', ['sady'=> $sady, 'users'=> $users]);
     }
 
+    public function introduction(){
+        return view('introduction-teacher.dashboard');
+    }
+
     public function studentsTable()
     {
         $users = User::where('ucitel', false)->get();

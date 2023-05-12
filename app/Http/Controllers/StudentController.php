@@ -14,24 +14,35 @@ class StudentController extends Controller
     {
         $currentDate = date('Y-m-d');
 
-        $availableBatches = MathBatch::where(function ($query) use ($currentDate) {
-            $query->where('available', true)
-                ->orWhere(function ($query) use ($currentDate) {
-                    $query->where('available', false)
-                        ->where(function ($query) use ($currentDate) {
-                            $query->whereNotNull('publishing_at')
-                                ->where('publishing_at', '<=', $currentDate)
-                                ->orWhereNotNull('closing_at');
-                        });
-                });
-        })
-            ->where(function ($query) use ($currentDate) {
-                $query->whereDate('closing_at', '>=', $currentDate)
-                    ->orWhereNull('closing_at');
-            })
+        $query1 = MathBatch::whereNull('publishing_at')
+            ->whereNull('closing_at')
+            ->where('available', true)
             ->get();
+
+        $query2 = MathBatch::whereNotNull('publishing_at')
+            ->where('publishing_at', '<=', $currentDate)
+            ->whereNull('closing_at')
+            ->get();
+
+        $query3 = MathBatch::whereNull('publishing_at')
+            ->whereNotNull('closing_at')
+            ->where('closing_at', '>=', $currentDate)
+            ->get();
+
+        $query4 = MathBatch::whereNotNull('publishing_at')
+            ->where('publishing_at', '<=', $currentDate)
+            ->whereNotNull('closing_at')
+            ->where('closing_at', '>=', $currentDate)
+            ->get();
+
+        $availableBatches = array_merge($query1->toArray(), $query2->toArray(), $query3->toArray(), $query4->toArray());
         return view('student.dashboard', ['batches' => $availableBatches, 'tasks' => Auth::user()->priklady]);
     }
+
+    public function introduction(){
+        return view('introduction-student.dashboard');
+    }
+
     public function generateTask(Request $request)
     {
         $user = Auth::user();
