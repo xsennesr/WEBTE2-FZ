@@ -7,6 +7,7 @@ return [
     /* Student dashboard */
     'title-main' => 'Student dashboard',
     'title-batches' => 'Batches available',
+    'title-no-batches' => 'No batches are currently available',
     'gen-butt' => 'Generate task',
     'title-tasks' => 'Tasks',
     'tasks-name' => 'Task name',

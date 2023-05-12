@@ -7,6 +7,7 @@ return [
     /* Student dashboard */
     'title-main' => 'Panel študenta',
     'title-batches' => 'Dostupné sady príkladov',
+    'title-no-batches' => 'Aktuálne nie su dostupné žiadne sady príkladov',
     'gen-butt' => 'Generovať úlohu',
     'title-tasks' => 'Úlohy',
     'tasks-name' => 'Príklad',
