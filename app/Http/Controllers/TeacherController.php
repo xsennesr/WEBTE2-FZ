@@ -17,6 +17,12 @@ class TeacherController extends Controller
         return view('teacher.dashboard', ['sady'=> $sady, 'users'=> $users]);
     }
 
+    public function studentsTable()
+    {
+        $users = User::where('ucitel', false)->get();
+        return view('teacher.students-table', ['users' => $users]);
+    }
+
     public function editTask($batch_id,$task_id)
     {
         $priklad = MathTask::where('id', $task_id)->first();
@@ -41,9 +47,9 @@ class TeacherController extends Controller
             'closing_at' => $request->input('closing_at'),
         ]);
         if($updated) {
-            return back()->with('success', 'Sada uspesne zmenena!');
+            return back()->with('success', __('messages.mess1-batch'));
        } else {
-           return back()->with('error', 'Sadu sa nepodarilo zmenit');
+           return back()->with('error', __('messages.err3-batch'));
        }
     }
 
@@ -58,9 +64,9 @@ class TeacherController extends Controller
             'solution' => $request->input('solution'),
         ]);
         if($updated) {
-             return back()->with('success', 'Priklad uspesne zmeneny!');
+             return back()->with('success', __('messages.mess1-task'));
         } else {
-            return back()->with('error', 'Priklad sa nepodarilo zmenit');
+            return back()->with('error', __('messages.err1-task'));
         }
     }
 

@@ -17,6 +17,16 @@ return [
     'sign-in' => 'LOG IN',
     'button-login' => 'Log in',
     'muted-text-login' => 'Not registered yet?',
-    'butt-redirect' => 'Register'
+    'butt-redirect' => 'Register',
+
+    /* Nav-bar */
+    'home' => 'Home',
+    'students' => 'Students',
+    'info' => 'Instructions',
+    'lang-sk' => 'Slovak',
+    'lang-en' => 'English',
+    'log-out' => 'Log Out',
+    'lang-title' => 'Language'
+
 
 ];

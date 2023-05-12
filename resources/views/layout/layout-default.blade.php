@@ -20,7 +20,7 @@
                 setTimeout(function() {
                     alertEl.remove();
                 }, 1000);
-            }, 3000);
+            }, 3500);
         }
     </script>
 </body>

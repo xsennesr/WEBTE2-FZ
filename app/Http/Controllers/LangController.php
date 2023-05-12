@@ -23,13 +23,6 @@ class LangController extends Controller
         return view('lang.lang');
 
     }
-    public function login() {
-        return view('auth.login');
-    }
-    public function registration() {
-        return view('auth.register');
-    }
-
 
     /**
 

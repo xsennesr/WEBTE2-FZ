@@ -38,7 +38,7 @@ class StudentController extends Controller
         $userId = $user->id;
         $selectedBatches = $request->input('selected-batch', []);
         if (!$selectedBatches) {
-            return back()->with('error', 'Vyber aspon jednu sadu');
+            return back()->with('error', __('messages.err1-batch') );
         }
         $randomTask = MathTask::whereIn('batch_id', $selectedBatches)
             ->whereNotIn('id', function ($query) use ($userId) {
@@ -49,7 +49,7 @@ class StudentController extends Controller
             ->inRandomOrder()
             ->first();
         if (!$randomTask) {
-            return back()->with('error', 'Uz si si vygeneroval vsetky priklady z tejto sady!');
+            return back()->with('error', __('messages.err2-batch'));
         }
         $user->priklady()->attach($randomTask->id);
         return back();

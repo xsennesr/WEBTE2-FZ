@@ -68,48 +68,18 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="bg-light p-4 mb-4 rounded table-responsive">
-                <label class="fs-4 text-decoration-underline mb-4">{{ __('teacher-dashb.student-table-title')  }}</label>
-                <table id="students" class="display table table-striped table-light table-hover rounded">
-                    <thead class="table-dark">
-                    <tr>
-                        <th>{{ __('teacher-dashb.student-table-th-name')  }}</th>
-                        <th class="text-center">ID</th>
-                        <th class="text-center">{{ __('teacher-dashb.student-table-th-generated')  }}</th>
-                        <th class="text-center">{{ __('teacher-dashb.student-table-th-submitted')  }}</th>
-                        <th class="text-center">{{ __('teacher-dashb.th-point')  }}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td class="text-center">{{ $user->id }}</td>
-                            <td class="text-center">{{ $user->priklady->count() }}</td>
-                            <td class="text-center">{{ $user->odovzdane_priklady->count() }}</td>
-                            <td class="text-center">{{ $user->priklady->sum('pivot.points') }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <a href="{{ route('teacher.export-csv') }}" class="btn btn-light"
-               style="background: lightsteelblue">
-                {{ __('teacher-dashb.csv-butt')  }}
-            </a>
         </div>
 
         <script>
             let table = new DataTable('#sady');
-            let table2 = new DataTable('#students');
         </script>
 
         <script type="text/javascript">
-            var url = "{{ route('changeLang') }}";
+            document.getElementById('home-t').style.color = 'whitesmoke';
+
+            var urll = "{{ route('changeLang') }}";
             $(".changeLang").change(function(){
-                window.location.href = url + "?lang="+ $(this).val();
+                window.location.href = urll + "?lang="+ $(this).val();
             });
         </script>
     @endif

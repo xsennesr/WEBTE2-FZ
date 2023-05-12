@@ -59,12 +59,15 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                {{ $priklad->pivot->result ? __('student-dashb.task-sol-corr') : ($priklad->result === false ? __('student-dashb.task-sol-incorr') : __('student-dashb.task-sol-not-subm')) }}
+                                @if ($priklad->pivot->result) {{ __('student-dashb.task-sol-corr') }}
+                                @elseif(!$priklad->pivot->result && $priklad->pivot->submitted) {{ __('student-dashb.task-sol-incorr') }}
+                                @else {{ __('student-dashb.task-sol-not-subm') }}
+                                @endif
                             </td>
                             <td class="text-center">{{ $priklad->pivot->points}}</td>
                             <td class="text-center"><a href="{{route('student.render-task', $priklad->id)}}" type="button"
                                    class="btn btn-light" style="background-color: #eedb8c">
-                            @if ($priklad->pivot->submitted)
+                            @if (!$priklad->pivot->submitted)
                                         {{ __('student-dashb.task-solve-butt')  }}
                             @else
                                         {{ __('student-dashb.task-show-butt')  }}
@@ -81,5 +84,6 @@
 
         <script>
             let table = new DataTable('#priklady');
+            document.getElementById('home-s').style.color = 'whitesmoke';
         </script>
 @endsection
