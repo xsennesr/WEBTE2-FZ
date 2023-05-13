@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    expose:
+      - 9000
+    depends_on:
+      - mysql
+    networks:
+      - app_network
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - 8000:80
+    depends_on:
+      - app
+    environment:
+      NGINX_FPM_HOST: app
+      NGINX_ROOT: /usr/src/app/public
+    networks:
+      - app_network
+  mysql:
+    image: mysql:8.0.20
+    restart: always
+    build: 
+      dockerfile: ./docker/mysql/Dockerfile
+    environment:
+      MYSQL_DATABASE: webte_2_final
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - 3306:3306
+    networks:
+      - app_network
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - mysql
+    networks:
+      - app_network
+networks:
+  app_network:
+    driver: bridge
