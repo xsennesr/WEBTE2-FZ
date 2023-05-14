@@ -8,7 +8,7 @@
         && rm /tmp/dockerize.tar.gz
 
     # Install Composer
-    ENV COMPOSER_VERSION 2.1.5
+    ENV COMPOSER_VERSION 2.5.5
 
     RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=$COMPOSER_VERSION
 
@@ -54,8 +54,16 @@
     RUN chown -R www-data:www-data /usr/src/app/bootstrap/cache
     RUN chmod -R 777 /usr/src/app/storage
     RUN chmod -R 777 /usr/src/app/bootstrap/cache
-    
+
+
     RUN php artisan route:clear
     RUN php artisan config:clear 
     RUN php artisan cache:clear
     RUN php artisan view:cache
+
+    RUN composer install
+
+    RUN rm /usr/src/app/public/storage
+    RUN php artisan storage:link
+
+    RUN chown -R www-data:www-data /usr/src/app/public
