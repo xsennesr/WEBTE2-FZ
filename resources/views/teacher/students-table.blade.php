@@ -42,7 +42,7 @@
         </div>
 
         <div class="d-flex justify-content-end mt-2 w-100">
-            <a href="{{ route('teacher.export-csv') }}" class="btn btn-light py-2 px-3 mt-2 mr-auto"
+            <a href="{{ route('teacher.export-csv') }}" class="btn btn-light py-2 px-3 mt-2 mb-3 mr-auto"
                style="background: lightsteelblue">
                 {{ __('teacher-dashb.csv-butt')  }}
             </a>

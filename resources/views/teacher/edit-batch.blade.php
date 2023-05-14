@@ -81,7 +81,7 @@
                         @foreach ($priklady as $priklad)
                             <tr>
                                 <td class="text-center">{{ $priklad->task_name }}</td>
-                                <td class="text-center">
+                                <td class="text-center" style="white-space: nowrap;">
                                     <a href="{{ route('teacher.edit-task', ['batch_id' => $sada->id, 'task_id' => $priklad->id]) }}"
                                        type="button" class="btn btn-light" style="background-color: #eedb8c">
                                         {{ __('teacher-dashb.table-edit-butt')  }}

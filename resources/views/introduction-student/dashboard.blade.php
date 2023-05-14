@@ -3,7 +3,12 @@
 
 @include('introduction-student.studentContent')
 
-<a href="/student/generatePDF" class="btn btn-light mt-4" style="background: lightsteelblue">{{ __('introduction.pdf-btn')  }}</a>
+
+<div class="d-flex justify-content-end mt-2 w-100">
+    <a href="/student/generatePDF" class="btn btn-light mt-4 mr-auto mb-3" style="background: lightsteelblue">
+        {{ __('introduction.pdf-btn')  }}
+    </a>
+</div>
 
     <script>
         document.getElementById('info').style.color = 'whitesmoke';

@@ -57,7 +57,7 @@
                             </td>
                             <td class="text-center">{{ $sada->publishing_at }}</td>
                             <td class="text-center">{{ $sada->closing_at }}</td>
-                            <td class="text-center"><a href="{{ route('teacher.edit-batch', ['id' => $sada->id]) }}"
+                            <td class="text-center" style="white-space: nowrap;"><a href="{{ route('teacher.edit-batch', ['id' => $sada->id]) }}"
                                    type="button" class="btn btn-light" style="background-color: #eedb8c">
                                     <span class="text-center">{{ __('teacher-dashb.table-edit-butt')  }}</span>
                                     <i class="bi bi-pencil-square align-text-bottom"></i>
