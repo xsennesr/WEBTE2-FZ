@@ -93,13 +93,16 @@ class StudentController extends Controller
         // Check the return value to see if the command was successful
         if ($return_var == 0) {
             $result = trim($output[0]); // Get the result from the output
-            if ($result == 0) $result_points = $max_points;
-            else $result_points = 0;
+            $points = 0;
+            $result = filter_var($result,FILTER_VALIDATE_BOOLEAN);
+            if($result){
+                  $points = $max_points;
+            }
             Auth::user()->priklady()->updateExistingPivot($task->id, [
-                'result' => filter_var($result, FILTER_VALIDATE_BOOLEAN), //cast to boolean
+                'result' => $result,
                 'user_solution' => $user_solution,
                 'submitted' => true,
-                'points' => $result_points
+                'points' => $points
             ]);
         }
         return back();
