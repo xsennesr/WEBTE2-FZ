@@ -110,9 +110,9 @@ class StudentController extends Controller
 
     public function generatePDF()
     {
-        $data = []; 
+        $data = [];
 
-        $pdf = PDF::loadView('introduction-student.studentContent', $data); 
+        $pdf = PDF::loadView('introduction-student.studentContent', $data);
 
         return $pdf->download('StudentIntroduction.pdf');
     }

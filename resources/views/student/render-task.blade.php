@@ -35,7 +35,7 @@
 
         @if ($priklad->user_solution)
             <p class="fs-5 fw-normal text-decoration-underline mx-1 mb-3">{{ __('student-dashb.title-sol')  }}</p>
-            <p>{{ $priklad->user_solution }}</p>
+            <p>${{ $priklad->user_solution }}$</p>
         @else
             <form action="{{ route('student.submit-task') }}" method="POST" class="mb-0">
                 @csrf
@@ -74,12 +74,5 @@
             $('#user-solution-hidden').val(mathFieldContent);
         });
     </script>
-    <script type="module">
-  import { ComputeEngine } from
-    'https://unpkg.com/@cortex-js/compute-engine?module';
 
-  const ce = new ComputeEngine();
-  console.log(ce.parse('\\dfrac{6}{(5s+2)^2}e^{-4s}').json);
-  // ➔ "-1"
-</script>
 @endsection
