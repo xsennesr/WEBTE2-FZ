@@ -28,6 +28,11 @@ return[
     't-eighth' => 'In the "Edit Example" section, click "Edit" next to the example you want to edit',
     't-nineth' => 'On the next subpage, you can edit the name of the example, input, image and result',
     't-tenth' => 'After clicking "Save", the changes you made to the given example will be saved',
+    't-example-header' => 'Format of valid .tex file',
+    't-example-name' => '{name_of_example}',
+    't-assignment' => 'Assignment',
+    't-equation' => 'Equation',
+    't-correct' => 'Correct answer',
 
     'pdf-btn' => 'Download pdf file'
 ];

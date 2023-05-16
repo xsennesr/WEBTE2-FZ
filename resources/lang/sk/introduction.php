@@ -28,6 +28,11 @@ return[
      't-eighth' => 'V sekcii "Upraviť príklad" kliknite na "Upravit" pri tom príklade, ktorý chcete upraviť',
      't-nineth' => 'Na nasledujúcej podstránke môžte upraviť názov príkladu, zadanie, obrázok a výsledok',
      't-tenth' => 'Po kliknutí "Uložiť" sa uložia vami vykonané zmeny na danom príklade',
-
+     't-example-header' => 'Formát validného .tex súboru',
+     't-example-name' => '{nazov_prikladu}',
+     't-assignment' => 'Zadanie',
+     't-equation' => 'Rovnica',
+     't-correct' => 'Správna odpoveď',
+     
      'pdf-btn' => 'Stiahnuť pdf súbor'
 ];
