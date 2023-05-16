@@ -16,10 +16,17 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next): Response
     {
+	if(Auth::user()){
 
-        if(Auth::user() && Auth::user()->is_teacher){
-             return $next($request);
+		if(Auth::user()->is_teacher && str_contains($request->getRequestUri(),'teacher')){
+		   return $next($request);
+		}
+		if(!Auth::user()->is_teacher && str_contains($request->getRequestUri(),'student')){
+			return $next($request);
+		}
+		return new Response('Forbidden',403);
         }
+	return new Response('Unauthorized',401);
 
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Middleware\LanguageManager;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\HomeController;
+use App\Http\Middleware\CheckRole;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 |                   Teacher Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('teacher')->middleware('auth','lang')->group(function () {
+Route::prefix('teacher')->middleware('auth','lang',CheckRole::class)->group(function () {
     Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
     Route::get('/introduction', [TeacherController::class, 'introduction'])->name('introduction-teacher.dashboard');
     Route::get('/students', [TeacherController::class, 'studentsTable'])->name('teacher.studentsTable');
@@ -51,7 +52,7 @@ Route::prefix('teacher')->middleware('auth','lang')->group(function () {
 |                   Student Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('student')->middleware('auth','lang')->group(function () {
+Route::prefix('student')->middleware('auth','lang',CheckRole::class)->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
     Route::get('/introduction', [StudentController::class, 'introduction'])->name('introduction-student.dashboard');
     Route::post('/generate-task', [StudentController::class, 'generateTask'])->name('student.generate-task');
@@ -63,7 +64,7 @@ Route::prefix('student')->middleware('auth','lang')->group(function () {
 |--------------------------------------------------------------------------
 |                   Auth Routes
 |--------------------------------------------------------------------------
-*/
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -73,5 +74,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+*/
 require __DIR__.'/auth.php';
