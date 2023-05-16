@@ -5,12 +5,12 @@
     @if(Auth::check())
         @if(Auth::user()->ucitel === 1)
             @php
-                header("Location: /teacher/dashboard");
+                header("Location: " . route('teacher.dashboard'));
                 exit;
             @endphp
         @else
             @php
-                header("Location: /student/dashboard");
+                header("Location: " . route('student.dashboard'));
                 exit;
             @endphp
         @endif

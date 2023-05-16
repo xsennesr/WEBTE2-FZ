@@ -83,7 +83,7 @@ class StudentController extends Controller
         $user_solution = $request->input('user-solution');
 
         // Define the command to execute the Python script
-        $command = 'python ' . base_path('app/bin/compare.py') . ' ' . escapeshellarg($user_solution) . ' ' . escapeshellarg($solution);
+        $command = 'python3 ' . base_path('app/bin/compare.py') . ' ' . escapeshellarg($user_solution) . ' ' . escapeshellarg($solution);
         //todo nainstalujte si python, pip install sympy a to asi staci i guess, keby nie skuste si to spustit v cmd ten script
         // Execute the command and capture the output
         $output = [];
