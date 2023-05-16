@@ -18,10 +18,10 @@ class CheckRole
     {
 	if(Auth::user()){
 
-		if(Auth::user()->is_teacher && str_contains($request->getRequestUri(),'teacher')){
+		if(Auth::user()->ucitel && str_contains($request->getRequestUri(),'teacher')){
 		   return $next($request);
 		}
-		if(!Auth::user()->is_teacher && str_contains($request->getRequestUri(),'student')){
+		if(!Auth::user()->ucitel && str_contains($request->getRequestUri(),'student')){
 			return $next($request);
 		}
 		return new Response('Forbidden',403);
